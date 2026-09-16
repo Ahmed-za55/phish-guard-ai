@@ -6,27 +6,35 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-from app.services.email_checker import extract_email_content
-from app.services.url_checker import extract_urls, analyze_url
-from app.services.risk_engine import calculate_risk_breakdown
+try:
+    from app.services.email_checker import extract_email_content
+    from app.services.url_checker import extract_urls, analyze_url
+    from app.services.risk_engine import calculate_risk_breakdown
+except ImportError:
+    from services.email_checker import extract_email_content
+    from services.url_checker import extract_urls, analyze_url
+    from services.risk_engine import calculate_risk_breakdown
 
 load_dotenv()
 
-api_key = os.getenv("GEMINI_API_KEY")
+MODEL = "gemini-2.5-flash"
 
-if not api_key:
-    raise RuntimeError("GEMINI_API_KEY is not configured.")
 
-client = genai.Client(
-    api_key=api_key.strip()
-)
-MODEL = "gemini-3.6-flash"
+def get_gemini_client():
+    """
+    Lazy initialization of the Gemini client to avoid import-time crashes.
+    """
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise RuntimeError("GEMINI_API_KEY is not configured in Environment Variables.")
+    return genai.Client(api_key=api_key.strip())
 
 
 def generate_ai_response(contents) -> str:
     """
     Call Gemini with retry support for temporary errors.
     """
+    client = get_gemini_client()
     last_error = None
 
     for attempt in range(2):
