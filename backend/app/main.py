@@ -65,16 +65,19 @@ def check_rate_limit(request: Request) -> None:
 
 
 @app.get("/")
+@app.get("/api/backend/")
 def root():
     return {"project": "Phish Guard AI", "status": "running"}
 
 
 @app.get("/health")
+@app.get("/api/backend/health")
 def health():
     return {"ok": True}
 
 
 @app.post("/analyze", response_model=AnalyzeResponse)
+@app.post("/api/backend/analyze", response_model=AnalyzeResponse)
 def analyze(request: AnalyzeRequest, http_request: Request):
     check_rate_limit(http_request)
 
@@ -97,6 +100,7 @@ def analyze(request: AnalyzeRequest, http_request: Request):
 
 
 @app.post("/analyze-image", response_model=AnalyzeResponse)
+@app.post("/api/backend/analyze-image", response_model=AnalyzeResponse)
 async def analyze_image_endpoint(request: Request, file: UploadFile = File(...)):
     check_rate_limit(request)
 
@@ -124,6 +128,7 @@ async def analyze_image_endpoint(request: Request, file: UploadFile = File(...))
 
 
 @app.post("/analyze-email", response_model=AnalyzeResponse)
+@app.post("/api/backend/analyze-email", response_model=AnalyzeResponse)
 async def analyze_email_endpoint(request: Request, file: UploadFile = File(...)):
     check_rate_limit(request)
 
