@@ -16,16 +16,12 @@ except ImportError:
     from services.risk_engine import calculate_risk_breakdown
 
 load_dotenv()
-
-MODEL = "gemini-2.0-flash"
-
-
-MODEL = "gemini-2.0-flash"
+MODEL = "gemini-2.5-flash"
 
 
 def get_gemini_client():
     """
-    Lazy initialization of the Gemini client forcing stable v1 API version.
+    Lazy initialization of the Gemini client using the standard v1 endpoint.
     """
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
