@@ -20,15 +20,20 @@ load_dotenv()
 MODEL = "gemini-2.0-flash"
 
 
+MODEL = "gemini-2.0-flash"
+
+
 def get_gemini_client():
     """
-    Lazy initialization of the Gemini client to avoid import-time crashes.
+    Lazy initialization of the Gemini client forcing stable v1 API version.
     """
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
         raise RuntimeError("GEMINI_API_KEY is not configured in Environment Variables.")
-    return genai.Client(api_key=api_key.strip())
-
+    return genai.Client(
+        api_key=api_key.strip(),
+        http_options={"api_version": "v1"}
+    )
 
 def generate_ai_response(contents) -> str:
     """
