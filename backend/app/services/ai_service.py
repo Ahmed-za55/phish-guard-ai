@@ -16,7 +16,7 @@ except ImportError:
     from services.risk_engine import calculate_risk_breakdown
 
 load_dotenv()
-MODEL = "gemini-2.5-flash"
+MODEL = "gemini-1.5-flash-latest"
 
 
 def get_gemini_client():
