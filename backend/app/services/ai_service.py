@@ -17,6 +17,20 @@ except ImportError:
 
 load_dotenv()
 MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+FALLBACK_MODELS = [
+    model.strip()
+    for model in os.getenv(
+        "GEMINI_FALLBACK_MODELS",
+        "gemini-3.6-flash,gemini-3.5-flash",
+    ).split(",")
+    if model.strip()
+]
+
+# Keep the primary model first, then try configured fallbacks.
+MODEL_CHAIN = []
+for model_name in [MODEL, *FALLBACK_MODELS]:
+    if model_name not in MODEL_CHAIN:
+        MODEL_CHAIN.append(model_name)
 
 
 def get_gemini_client():
@@ -33,34 +47,64 @@ def get_gemini_client():
 
 def generate_ai_response(contents) -> str:
     """
-    Call Gemini with retry support for temporary errors.
+    Call Gemini with retries and model fallback for transient 503/429 errors.
     """
     client = get_gemini_client()
     last_error = None
 
-    for attempt in range(2):
-        try:
-            response = client.models.generate_content(
-                model=MODEL,
-                contents=contents,
-            )
+    for model_name in MODEL_CHAIN:
+        for attempt in range(3):
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=contents,
+                )
 
-            if not response.text:
-                raise RuntimeError("Gemini returned an empty response.")
+                if not response.text:
+                    raise RuntimeError("Gemini returned an empty response.")
 
-            return response.text
+                if model_name != MODEL:
+                    print(f"[GEMINI FALLBACK] Request succeeded with {model_name}")
 
-        except Exception as exc:
-            last_error = exc
-            error_text = str(exc)
+                return response.text
 
-            if "503" in error_text or "UNAVAILABLE" in error_text or "RESOURCE_EXHAUSTED" in error_text:
-                time.sleep(1)
-                continue
+            except Exception as exc:
+                last_error = exc
+                error_text = str(exc)
+                retryable = any(
+                    marker in error_text
+                    for marker in (
+                        "503",
+                        "UNAVAILABLE",
+                        "429",
+                        "RESOURCE_EXHAUSTED",
+                        "408",
+                        "504",
+                        "DEADLINE_EXCEEDED",
+                    )
+                )
 
-            raise
+                if not retryable:
+                    raise
 
-    raise RuntimeError(f"Gemini service unavailable after retries: {last_error}")
+                # Exponential backoff: 1s, 2s, 4s.
+                if attempt < 2:
+                    delay = 2 ** attempt
+                    print(
+                        f"[GEMINI RETRY] {model_name} attempt {attempt + 1}/3 "
+                        f"failed; retrying in {delay}s. Error: {error_text[:160]}"
+                    )
+                    time.sleep(delay)
+                    continue
+
+                print(
+                    f"[GEMINI MODEL FAILED] {model_name}: {error_text[:200]}"
+                )
+                break
+
+    raise RuntimeError(
+        f"Gemini service unavailable after trying models {MODEL_CHAIN}: {last_error}"
+    )
 
 
 def parse_ai_response(response_text: str) -> dict:
