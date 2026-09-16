@@ -263,7 +263,6 @@ Message:
         source_text=text,
     )
 
-
 def analyze_image(
     image_bytes: bytes,
     mime_type: str,
@@ -312,20 +311,19 @@ Rules:
             data=image_bytes,
             mime_type=mime_type,
         )
-        response_text = generate_ai_response([prompt, image_part])
+        response_text = generate_ai_response(contents=[prompt, image_part])
         data = parse_ai_response(response_text)
         extracted_text = data.get("extracted_text", "")
     except Exception as exc:
         print(f"[FALLBACK ACTIVATED] Image Analysis fallback engaged. Error: {exc}")
         extracted_text = "Image text extraction unavailable during offline fallback mode."
         data = run_heuristic_fallback(source_text=extracted_text)
-        data["evidence"].append("Analysis produced via offline fallback engine.")
+        data["evidence"].append(f"Fallback triggered: {str(exc)[:80]}")
 
     return build_final_result(
         data=data,
         source_text=extracted_text,
     )
-
 
 def analyze_email(email_bytes: bytes) -> dict:
     """
