@@ -140,11 +140,13 @@ export default function Home() {
     setError("");
     setResult(null);
 
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || "/api/backend";
+
     try {
       let response: Response;
 
       if (mode === "text") {
-        response = await fetch("http://127.0.0.1:8000/analyze", {
+        response = await fetch(`${apiBase}/analyze`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -159,8 +161,8 @@ export default function Home() {
 
         const endpoint =
           mode === "image"
-            ? "http://127.0.0.1:8000/analyze-image"
-            : "http://127.0.0.1:8000/analyze-email";
+            ? `${apiBase}/analyze-image`
+            : `${apiBase}/analyze-email`;
 
         response = await fetch(endpoint, {
           method: "POST",
