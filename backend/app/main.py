@@ -24,16 +24,6 @@ MAX_EMAIL_SIZE = int(
     os.getenv("MAX_EMAIL_SIZE", str(10 * 1024 * 1024))
 )
 
-FRONTEND_ORIGINS = [
-    origin.strip()
-    for origin in os.getenv(
-        "FRONTEND_ORIGINS",
-        "http://localhost:3000,http://127.0.0.1:3000",
-    ).split(",")
-    if origin.strip()
-]
-
-
 # Rate limiting:
 # Default = 10 requests per IP every 60 seconds.
 RATE_LIMIT_REQUESTS = int(
@@ -56,16 +46,13 @@ app = FastAPI(
     description="AI-powered phishing and scam detection platform.",
 )
 
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=FRONTEND_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type", "Accept"],
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
-
-
 def safe_error(
     message: str,
     status_code: int = 500,
