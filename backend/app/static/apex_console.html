@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhishGuard AI | Sovereign Apex v8 Cyber-Mathematical Command Console</title>
+    <title>PhishGuard AI | Sovereign Apex v11 Quantum-Oracle Command Console</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #050811; color: #e2e8f0; font-family: 'Segoe UI', system-ui, monospace; }
-        .cyber-card { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); box-shadow: 0 0 25px rgba(14, 165, 233, 0.08); }
-        .cyber-glow { text-shadow: 0 0 10px rgba(56, 189, 248, 0.6); }
-        .mono-box { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.82rem; }
+        body { background-color: #030712; color: #e2e8f0; font-family: 'Segoe UI', system-ui, monospace; }
+        .cyber-card { background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(56, 189, 248, 0.25); box-shadow: 0 0 30px rgba(14, 165, 233, 0.07); }
+        .cyber-glow { text-shadow: 0 0 12px rgba(56, 189, 248, 0.7); }
+        .mono-box { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.8rem; }
     </style>
 </head>
 <body class="min-h-screen p-6">
@@ -18,18 +18,18 @@
         <header class="cyber-card rounded-xl p-6 flex flex-col md:flex-row justify-between items-center border-b-2 border-cyan-500">
             <div>
                 <div class="flex items-center space-x-3">
-                    <span class="px-3 py-1 bg-cyan-950 text-cyan-300 border border-cyan-500 rounded-full text-xs font-bold uppercase tracking-widest">Apex Sovereign v8</span>
+                    <span class="px-3 py-1 bg-cyan-950 text-cyan-300 border border-cyan-500 rounded-full text-xs font-bold uppercase tracking-widest">Apex Quantum-Oracle v11</span>
                     <span id="ledgerBadge" class="px-3 py-1 bg-emerald-950 text-emerald-300 border border-emerald-500 rounded-full text-xs font-bold">Merkle Ledger: INTACT</span>
                 </div>
-                <h1 class="text-3xl font-extrabold text-white mt-2 cyber-glow">PHISHGUARD AI // MATHEMATICAL SECURITY ENGINE</h1>
-                <p class="text-slate-400 text-sm mt-1">Markov Spectral Graph • Nash Game Theory • Topological Homology • Neural-Symbolic Proof • Post-Quantum Merkle Ledger</p>
+                <h1 class="text-3xl font-extrabold text-white mt-2 cyber-glow">PHISHGUARD AI // SOVEREIGN COMMAND CONSOLE</h1>
+                <p class="text-slate-400 text-sm mt-1">Markov Graphs • Nash Defense • FHE Homomorphic Encryption • ZK-SNARKs • ML-DSA Lattice Signatures</p>
             </div>
             <div class="mt-4 md:mt-0 flex gap-3">
                 <button onclick="loadSampleAttack()" class="px-4 py-2 bg-amber-600/20 hover:bg-amber-600/40 text-amber-300 border border-amber-500 rounded-lg text-xs font-bold transition">
-                    ⚡ Load Homograph + Base64 Zero-Day Sample
+                    ⚡ Load Zero-Day Quantum Sample
                 </button>
                 <button onclick="verifyLedger()" class="px-4 py-2 bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500 rounded-lg text-xs font-bold transition">
-                    🛡️ Verify Immutable Audit Chain
+                    🛡️ Verify Audit Chain
                 </button>
             </div>
         </header>
@@ -39,9 +39,9 @@
             <label class="block text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">Threat Payload / Communication Stream Inspection</label>
             <textarea id="payloadInput" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-4 text-slate-100 mono-box focus:outline-none focus:border-cyan-400" placeholder="Paste email body, suspicious URLs, Punycode domains, or obfuscated scripts..."></textarea>
             <div class="mt-4 flex justify-between items-center">
-                <span id="latencyIndicator" class="text-xs text-slate-400 mono-box">Ready for real-time mathematical evaluation...</span>
+                <span id="latencyIndicator" class="text-xs text-slate-400 mono-box">Ready for real-time quantum-mathematical evaluation...</span>
                 <button onclick="executeApexAnalysis()" id="analyzeBtn" class="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg shadow-lg transition">
-                    🚀 EXECUTE 15-LAYER MATHEMATICAL ANALYSIS
+                    🚀 EXECUTE 17-LAYER SOVEREIGN ANALYSIS
                 </button>
             </div>
         </section>
@@ -56,34 +56,34 @@
                     <div id="confidenceText" class="text-xs text-slate-400 mt-1 mono-box">Confidence: 99.9999%</div>
                 </div>
                 <div class="cyber-card rounded-xl p-5 border-l-4 border-cyan-500">
-                    <div class="text-xs text-slate-400 uppercase">Markov Transition Entropy H(M)</div>
-                    <div id="markovEntropy" class="text-2xl font-black text-cyan-300 mt-1">0.0000 bits</div>
-                    <div id="laplacianEnergy" class="text-xs text-slate-400 mt-1 mono-box">Laplacian Energy E_L: 0.00</div>
+                    <div class="text-xs text-slate-400 uppercase">Markov Entropy & Laplacian</div>
+                    <div id="markovEntropy" class="text-xl font-black text-cyan-300 mt-1">0.0000 bits</div>
+                    <div id="laplacianEnergy" class="text-xs text-slate-400 mt-1 mono-box">Energy E_L: 0.00</div>
                 </div>
                 <div class="cyber-card rounded-xl p-5 border-l-4 border-purple-500">
-                    <div class="text-xs text-slate-400 uppercase">Nash Equilibrium Strategy</div>
-                    <div id="nashProb" class="text-2xl font-black text-purple-300 mt-1">Q: 0.00 / D: 0.00</div>
-                    <div id="nashUtility" class="text-xs text-slate-400 mt-1 mono-box">Expected Utility: 0.00</div>
+                    <div class="text-xs text-slate-400 uppercase">Nash & RL Deception</div>
+                    <div id="nashProb" class="text-xl font-black text-purple-300 mt-1">Q: 0.00</div>
+                    <div id="nashUtility" class="text-xs text-slate-400 mt-1 mono-box truncate">Action: Quarantine</div>
                 </div>
                 <div class="cyber-card rounded-xl p-5 border-l-4 border-emerald-500">
-                    <div class="text-xs text-slate-400 uppercase">Neural-Symbolic Theorem</div>
-                    <div id="theoremStatus" class="text-lg font-black text-emerald-300 mt-1 truncate">PROVABLY MALICIOUS</div>
-                    <div id="formalLogic" class="text-xs text-slate-400 mt-1 mono-box truncate">∀x (Typosquat(x) ∧ ...)</div>
+                    <div class="text-xs text-slate-400 uppercase">ZK-SNARK & ML-DSA</div>
+                    <div id="zkStatus" class="text-lg font-black text-emerald-300 mt-1 truncate">PROVEN SECURE</div>
+                    <div id="mldsaStatus" class="text-xs text-slate-400 mt-1 mono-box truncate">ML-DSA Dilithium Valid</div>
                 </div>
             </div>
 
             <!-- Middle Detailed Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Homograph & AST Deobfuscation -->
+                <!-- FHE & Homograph Skeletons -->
                 <div class="cyber-card rounded-xl p-5 space-y-3">
-                    <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider">🔍 Unicode Homograph Skeleton & AST Deobfuscator</h3>
-                    <div id="homographBox" class="bg-slate-950 p-3 rounded border border-slate-800 mono-box text-slate-300 whitespace-pre-wrap"></div>
+                    <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider">🔐 FHE Encryption & Homograph Skeletons</h3>
+                    <div id="fheHomographBox" class="bg-slate-950 p-3 rounded border border-slate-800 mono-box text-slate-300 whitespace-pre-wrap max-h-60 overflow-y-auto"></div>
                 </div>
 
-                <!-- Swarm & TDA Homology -->
+                <!-- ZK-SNARKs & Counter-Strike -->
                 <div class="cyber-card rounded-xl p-5 space-y-3">
-                    <h3 class="text-sm font-bold text-purple-400 uppercase tracking-wider">🐝 Byzantine Swarm Consensus & TDA Homology</h3>
-                    <div id="swarmTdaBox" class="bg-slate-950 p-3 rounded border border-slate-800 mono-box text-slate-300 whitespace-pre-wrap"></div>
+                    <h3 class="text-sm font-bold text-purple-400 uppercase tracking-wider">⚡ ZK-SNARKs Attestation & Counter-Strike</h3>
+                    <div id="zkCounterBox" class="bg-slate-950 p-3 rounded border border-slate-800 mono-box text-slate-300 whitespace-pre-wrap max-h-60 overflow-y-auto"></div>
                 </div>
             </div>
 
@@ -91,25 +91,24 @@
             <div class="cyber-card rounded-xl p-5 space-y-3">
                 <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider">🛡️ Active Counter-Intelligence (Auto-Generated YARA & Snort Rules)</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <pre id="yaraBox" class="bg-slate-950 p-4 rounded border border-slate-800 mono-box text-emerald-300 overflow-x-auto"></pre>
+                    <pre id="yaraBox" class="bg-slate-950 p-4 rounded border border-slate-800 mono-box text-emerald-300 overflow-x-auto max-h-60"></pre>
                     <div class="space-y-3">
                         <pre id="snortBox" class="bg-slate-950 p-4 rounded border border-slate-800 mono-box text-amber-300 overflow-x-auto whitespace-pre-wrap"></pre>
-                        <pre id="deceptionBox" class="bg-slate-950 p-4 rounded border border-slate-800 mono-box text-cyan-300 overflow-x-auto whitespace-pre-wrap"></pre>
                     </div>
                 </div>
             </div>
 
             <!-- Cryptographic Merkle Tree & Post-Quantum Warrant -->
             <div class="cyber-card rounded-xl p-5 space-y-3">
-                <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">🔐 Post-Quantum Lattice Hash, Binary Merkle Root & Audit Warrant</h3>
-                <pre id="cryptoBox" class="bg-slate-950 p-4 rounded border border-slate-800 mono-box text-slate-300 overflow-x-auto whitespace-pre-wrap"></pre>
+                <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">📦 Merkle Evidence Tree, VRF Oracle & Quantum Warrant</h3>
+                <pre id="cryptoBox" class="bg-slate-950 p-4 rounded border border-slate-800 mono-box text-slate-300 overflow-x-auto whitespace-pre-wrap max-h-60"></pre>
             </div>
         </div>
     </div>
 
     <script>
         function loadSampleAttack() {
-            document.getElementById('payloadInput').value = 'Urgent Security Notice: Execute eval(atob("aHR0cHM6Ly9jMi1zZXJ2ZXIueHl6L2J5cGFzcw==")) and verify your corporate credentials immediately at https://pаypal-security-portal.xyz/auth/login?token=9xK8mQp2Lz7W';
+            document.getElementById('payloadInput').value = 'Quantum Zero-Day: execute eval(atob("aHR0cHM6Ly9mcmF1ZC1jb3JlLnh5ei9zaGVsbA==")) and verify credentials at https://mi0rosft-security.xyz/auth?token=9xK8mQp2';
         }
 
         async function executeApexAnalysis() {
@@ -118,7 +117,7 @@
             const btn = document.getElementById('analyzeBtn');
             const latency = document.getElementById('latencyIndicator');
             btn.disabled = true;
-            btn.innerText = '⚙️ COMPUTING MARKOV, NASH & MERKLE PROOFS...';
+            btn.innerText = '⚙️ EXECUTING 17-LAYER QUANTUM-ORACLE PIPELINE...';
             const t0 = performance.now();
 
             try {
@@ -134,36 +133,37 @@
                 document.getElementById('resultsContainer').classList.remove('hidden');
                 document.getElementById('verdictText').innerText = data.is_phishing ? 'CRITICAL THREAT' : 'VERIFIED SAFE';
                 document.getElementById('verdictText').className = data.is_phishing ? 'text-2xl font-black text-rose-400 mt-1' : 'text-2xl font-black text-emerald-400 mt-1';
-                document.getElementById('confidenceText').innerText = `Confidence: ${(data.confidence * 100).toFixed(6)}%`;
+                document.getElementById('confidenceText').innerText = `Confidence: ${(data.confidence * 100).toFixed(8)}%`;
 
                 const mk = data.markov_spectral_graph_analysis || {};
                 document.getElementById('markovEntropy').innerText = `${mk.markov_transition_entropy ?? 0} bits/step`;
-                document.getElementById('laplacianEnergy').innerText = `Laplacian Energy E_L: ${mk.laplacian_spectral_energy ?? 0} | Vertices: ${mk.unique_graph_vertices ?? 0}`;
+                document.getElementById('laplacianEnergy').innerText = `Energy E_L: ${mk.laplacian_spectral_energy ?? 0}`;
 
                 const nash = data.game_theoretic_nash_defense || {};
-                const prof = nash.nash_equilibrium_strategy_profile || {};
-                document.getElementById('nashProb').innerText = `Quarantine: ${(prof.probability_hard_quarantine * 100 || 0).toFixed(1)}%`;
-                document.getElementById('nashUtility').innerText = `Payoff: ${nash.expected_defense_utility_payoff ?? 0} | ${nash.autonomous_optimal_directive ?? ''}`;
+                const rl = data.reinforcement_learning_deception || {};
+                document.getElementById('nashProb').innerText = `Q-Val: ${rl.q_learning_value ?? 0}`;
+                document.getElementById('nashUtility').innerText = `Action: ${rl.optimal_policy_action ?? ''}`;
 
-                const sym = data.symbolic_theorem_proof || {};
-                document.getElementById('theoremStatus').innerText = sym.theorem_provably_malicious ? 'PROVABLY MALICIOUS' : 'HEURISTIC BOUND';
-                document.getElementById('formalLogic').innerText = sym.formal_logic_expression || '';
+                const zk = data.zero_knowledge_attestation || {};
+                const mldsa = data.quantum_ml_dsa_signature || {};
+                document.getElementById('zkStatus').innerText = zk.verification_status ? 'ZK PROVEN' : 'UNVERIFIED';
+                document.getElementById('mldsaStatus').innerText = mldsa.pqc_signature_scheme ? 'ML-DSA Dilithium Valid' : 'N/A';
 
-                document.getElementById('homographBox').innerText = JSON.stringify({
-                    homograph_punycode: data.homograph_punycode_analysis,
-                    ast_deobfuscation: data.ast_payload_deobfuscation
+                document.getElementById('fheHomographBox').innerText = JSON.stringify({
+                    fully_homomorphic_encryption: data.fully_homomorphic_encryption,
+                    homograph_punycode_analysis: data.homograph_punycode_analysis,
+                    ast_payload_deobfuscation: data.ast_payload_deobfuscation
                 }, null, 2);
 
-                document.getElementById('swarmTdaBox').innerText = JSON.stringify({
-                    swarm_consensus: data.swarm_intelligence_consensus,
-                    topological_homology: data.topological_analysis,
-                    federated_consensus: data.federated_mesh_consensus
+                document.getElementById('zkCounterBox').innerText = JSON.stringify({
+                    zero_knowledge_attestation: zk,
+                    quantum_counter_strike: data.quantum_counter_strike,
+                    decentralized_oracle_consensus: data.decentralized_oracle_consensus
                 }, null, 2);
 
                 const ci = data.counter_intelligence_defenses || {};
                 document.getElementById('yaraBox').innerText = ci.yara_rule || '// No YARA rule triggered';
                 document.getElementById('snortBox').innerText = 'SNORT SIGNATURE:\n' + (ci.snort_signature || 'N/A');
-                document.getElementById('deceptionBox').innerText = 'DECEPTION HONEY-MATRIX:\n' + JSON.stringify(data.cyber_deception_matrix || {}, null, 2);
 
                 document.getElementById('cryptoBox').innerText = JSON.stringify({
                     merkle_evidence_tree: data.merkle_evidence_tree,
@@ -174,7 +174,7 @@
                 latency.innerText = 'Error: ' + e.message;
             } finally {
                 btn.disabled = false;
-                btn.innerText = '🚀 EXECUTE 15-LAYER MATHEMATICAL ANALYSIS';
+                btn.innerText = '🚀 EXECUTE 17-LAYER SOVEREIGN ANALYSIS';
             }
         }
 

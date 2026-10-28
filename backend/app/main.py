@@ -211,3 +211,6 @@ from fastapi.responses import HTMLResponse
 async def serve_apex_console():
     html_file = Path(__file__).resolve().parent / "static" / "apex_console.html"
     return HTMLResponse(content=html_file.read_text(encoding="utf-8"), status_code=200)
+
+from app.telemetry.metrics import router as metrics_router
+app.include_router(metrics_router)
