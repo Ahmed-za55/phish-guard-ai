@@ -1,0 +1,78 @@
+{
+  "3f1c932a573db5862530f71a6d3700f4f548c6d44308a6079c50dc415b486d82": {
+    "is_phishing": true,
+    "confidence": 0.95,
+    "threats": [
+      "Social Engineering",
+      "Malicious Links",
+      "Brand Impersonation"
+    ],
+    "evidence": [
+      "The hostname contains multiple hyphens.",
+      "High Shannon Information Entropy (H = 5.17 bits/char), indicating algorithmic obfuscation or DGA anomaly.",
+      "Mathematical Typosquatting Detection: Token 'micr0soft' exhibits 100% Levenshtein similarity (edit distance d_L = 1) to protected brand 'microsoft'.",
+      "The domain uses the 'xyz' top-level domain, which is treated as a risk signal.",
+      "High-urgency social engineering linguistic patterns detected.",
+      "The hostname contains security/account-related branding terms."
+    ],
+    "recommendations": [
+      "Do not submit credentials, banking info, or personal verification data.",
+      "Verify communications independently through official application channels."
+    ],
+    "urls": [
+      {
+        "url": "https://micr0soft-secure-login.xyz/auth?token=9xK8mQp2Lz7W1vN4rT6y",
+        "hostname": "micr0soft-secure-login.xyz",
+        "risk_score": 85,
+        "risk_level": "HIGH",
+        "reasons": [
+          "The domain uses the 'xyz' top-level domain, which is treated as a risk signal.",
+          "The hostname contains security/account-related branding terms.",
+          "The hostname contains multiple hyphens.",
+          "High Shannon Information Entropy (H = 5.17 bits/char), indicating algorithmic obfuscation or DGA anomaly.",
+          "Mathematical Typosquatting Detection: Token 'micr0soft' exhibits 100% Levenshtein similarity (edit distance d_L = 1) to protected brand 'microsoft'."
+        ]
+      }
+    ],
+    "security_flags": [],
+    "cached_hit": false
+  },
+  "b5d34aed8a4ccb8b71c057db079c59f0be1c39bffeb71f0eb57cf91c4a67a0c1": {
+    "is_phishing": true,
+    "confidence": 0.95,
+    "threats": [
+      "Malicious Links",
+      "Brand Impersonation",
+      "Social Engineering"
+    ],
+    "evidence": [
+      "The hostname contains security/account-related branding terms.",
+      "The hostname contains multiple hyphens.",
+      "High-urgency social engineering linguistic patterns detected.",
+      "The URL contains sensitive-action terms: login.",
+      "The domain uses the 'xyz' top-level domain, which is treated as a risk signal.",
+      "Mathematical Typosquatting Detection: Token 'paypa1' exhibits 100% Levenshtein similarity (edit distance d_L = 1) to protected brand 'paypal'."
+    ],
+    "recommendations": [
+      "Do not submit credentials, banking info, or personal verification data.",
+      "Verify communications independently through official application channels."
+    ],
+    "urls": [
+      {
+        "url": "https://paypa1-security-update.xyz/login",
+        "hostname": "paypa1-security-update.xyz",
+        "risk_score": 85,
+        "risk_level": "HIGH",
+        "reasons": [
+          "The domain uses the 'xyz' top-level domain, which is treated as a risk signal.",
+          "The URL contains sensitive-action terms: login.",
+          "The hostname contains security/account-related branding terms.",
+          "The hostname contains multiple hyphens.",
+          "Mathematical Typosquatting Detection: Token 'paypa1' exhibits 100% Levenshtein similarity (edit distance d_L = 1) to protected brand 'paypal'."
+        ]
+      }
+    ],
+    "security_flags": [],
+    "cached_hit": false
+  }
+}
