@@ -1,0 +1,18 @@
+[
+  {
+    "index": 1,
+    "timestamp": 1793228996.7434163,
+    "report_hash": "221ca9bf66b200599271900c4025f16f114069963710966e00dc6eaf9f347b22",
+    "verdict": true,
+    "previous_block_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "current_block_hash": "54408f372d8728be7bd344b8fe1a32d162236ab1f95b26783a121fd6a58392d7"
+  },
+  {
+    "index": 2,
+    "timestamp": 1793229034.4500017,
+    "report_hash": "0ab7973d1292273107a07fbe7da8622846b05e76aba82dd585e69ae54b9013c0",
+    "verdict": true,
+    "previous_block_hash": "54408f372d8728be7bd344b8fe1a32d162236ab1f95b26783a121fd6a58392d7",
+    "current_block_hash": "009cc90dd34f3b31d13ae527f6309adb088246025e2a66c2d35208ed4c002c06"
+  }
+]

@@ -74,5 +74,408 @@
     ],
     "security_flags": [],
     "cached_hit": false
+  },
+  "60360b74a78b559f84bca4131b4ce2e0a296d57326e2a8adc496e70161abae99": {
+    "is_phishing": true,
+    "confidence": 0.95,
+    "threats": [
+      "Malicious Links",
+      "Brand Impersonation",
+      "Social Engineering"
+    ],
+    "evidence": [
+      "Mathematical Typosquatting Detection: Token 'micr0soft' exhibits 100% Levenshtein similarity (edit distance d_L = 1) to protected brand 'microsoft'.",
+      "The hostname contains security/account-related branding terms.",
+      "The hostname contains multiple hyphens.",
+      "High-urgency social engineering linguistic patterns detected.",
+      "The URL contains sensitive-action terms: login.",
+      "The domain uses the 'xyz' top-level domain, which is treated as a risk signal.",
+      "High Shannon Information Entropy (H = 4.37 bits/char), indicating algorithmic obfuscation or DGA anomaly."
+    ],
+    "recommendations": [
+      "Do not submit credentials, banking info, or personal verification data.",
+      "Verify communications independently through official application channels."
+    ],
+    "urls": [
+      {
+        "url": "https://micr0soft-security-portal.xyz/auth/login",
+        "hostname": "micr0soft-security-portal.xyz",
+        "risk_score": 85,
+        "risk_level": "HIGH",
+        "reasons": [
+          "The domain uses the 'xyz' top-level domain, which is treated as a risk signal.",
+          "The URL contains sensitive-action terms: login.",
+          "The hostname contains security/account-related branding terms.",
+          "The hostname contains multiple hyphens.",
+          "High Shannon Information Entropy (H = 4.37 bits/char), indicating algorithmic obfuscation or DGA anomaly.",
+          "Mathematical Typosquatting Detection: Token 'micr0soft' exhibits 100% Levenshtein similarity (edit distance d_L = 1) to protected brand 'microsoft'."
+        ]
+      }
+    ],
+    "security_flags": [],
+    "cached_hit": false
+  },
+  "d7e1d4c51d87447038f71a8817e8e49b75e59b1fb972d110301b4340013ac144": {
+    "is_phishing": true,
+    "confidence": 0.9999999999,
+    "threats": [
+      "Obfuscated Payload / Script Injection",
+      "Social Engineering",
+      "Zero-Day Topological Structural Anomaly"
+    ],
+    "evidence": [
+      "AST Inspector unwrapped layers ['Base64-Payload-Armoring'] and flagged sinks ['eval', 'atob'].",
+      "High-urgency social engineering linguistic patterns detected.",
+      "TDA Homology Anomaly Index: 86.46 (Structural complexity detected)."
+    ],
+    "recommendations": [
+      "Nash Optimal Action: IMMEDIATE_AUTONOMOUS_QUARANTINE_AND_BGP_NULL_ROUTE",
+      "Do not submit credentials, banking info, or personal verification data.",
+      "Verify communications independently through official application channels."
+    ],
+    "urls": [
+      {
+        "url": "https://p?ypal-security.xyz/auth",
+        "hostname": "p",
+        "risk_score": 5,
+        "risk_level": "LOW",
+        "reasons": [
+          "The URL contains sensitive-action terms: security."
+        ]
+      }
+    ],
+    "security_flags": [],
+    "markov_spectral_graph_analysis": {
+      "markov_transition_entropy": 1.4954,
+      "laplacian_spectral_energy": 13.9366,
+      "transition_matrix_density": 0.0489,
+      "unique_graph_vertices": 47,
+      "directed_graph_edges": 108,
+      "dga_stochastic_anomaly": false
+    },
+    "homograph_punycode_analysis": {
+      "idn_homograph_attack_detected": false,
+      "non_ascii_glyph_count": 0,
+      "punycode_triggers": [],
+      "canonical_domain_skeletons": [
+        {
+          "original": "p?ypal-security.xyz",
+          "canonical_skeleton": "p?ypal-security.xyz",
+          "punycode": "p?ypal-security.xyz"
+        }
+      ]
+    },
+    "ast_payload_deobfuscation": {
+      "obfuscation_layers_unwrapped": [
+        "Base64-Payload-Armoring"
+      ],
+      "decoded_hidden_artifacts": [
+        "https://malicious-core.xyz/shell"
+      ],
+      "ast_dangerous_sink_tokens": [
+        "eval",
+        "atob"
+      ],
+      "deep_inspection_triggered": true
+    },
+    "game_theoretic_nash_defense": {
+      "game_model": "Non-Zero-Sum Bimatrix Cyber Defense Game",
+      "nash_equilibrium_strategy_profile": {
+        "probability_hard_quarantine": 0.8275,
+        "probability_deceptive_sinkhole": 0.1725
+      },
+      "expected_defense_utility_payoff": 96.94,
+      "autonomous_optimal_directive": "IMMEDIATE_AUTONOMOUS_QUARANTINE_AND_BGP_NULL_ROUTE"
+    },
+    "topological_analysis": [
+      {
+        "topological_anomaly_score": 86.46,
+        "betti_structural_complexity": 2,
+        "path_irregularity_index": 2,
+        "status": "topological_homology_verified"
+      }
+    ],
+    "swarm_intelligence_consensus": {
+      "swarm_cluster_id": "swarm--b3ac5e478602",
+      "participating_agents": [
+        "Lexical-Agent",
+        "Topological-Agent",
+        "Threat-Intel-Agent",
+        "Entropy-Agent"
+      ],
+      "consensus_confidence_vector": 0.58,
+      "byzantine_fault_tolerance": "verified_secure",
+      "swarm_verdict_malicious": true
+    },
+    "symbolic_theorem_proof": {
+      "symbolic_proof_id": "theorem--a07da0557e",
+      "formal_logic_expression": "\u00acProvableAnomaly",
+      "theorem_provably_malicious": false,
+      "confidence_certainty": 0.85
+    },
+    "neural_singularity_fuzzing": {
+      "fuzzing_engine_id": "fuzz--0be0fa4220fe0766",
+      "mutation_depth": 7,
+      "evasion_vector_detected": false,
+      "singularity_status": "neural_fuzzing_verified"
+    },
+    "genetic_mutation_engine": {
+      "genetic_generation": 42,
+      "mutation_hash": "0cc50ca5f7d7dd8a",
+      "fitness_score": 0.9987,
+      "mutation_status": "adversarial_resilience_verified"
+    },
+    "epigenetic_self_healing": {
+      "epigenetic_status": "nominal_equilibrium",
+      "structural_mutation_token": "optimal",
+      "entropy_mitigation_applied": false
+    },
+    "neural_hive_mind_broadcast": {
+      "hive_sync_status": "synchronized_distributed_immunity",
+      "active_hive_nodes": 128,
+      "origin_node_id": "d7e1d4c51d",
+      "propagation_latency_ms": 0.14
+    },
+    "counter_intelligence_defenses": {
+      "yara_rule": "rule PhishGuard_AutoGenerated_a4f4ab17 {\n    meta:\n        description = \"Auto-generated counter-intelligence rule for Obfuscated Payload / Script Injection\"\n        author = \"PhishGuard AI Autonomous Defense Core\"\n        date = \"2026-10-29\"\n    strings:\n        $s1 = \"AST Inspector unwrapped layers ['Base64-Payload-Armoring'] and flagged sinks ['eval', 'atob'].\" ascii nocase\n    condition:\n        any of them\n}",
+      "snort_signature": "alert tcp any any -> any 80,443 (msg:\"PhishGuard Autonomous Block: Malicious Domain p?ypal-security.xyz\"; content:\"p?ypal-security.xyz\"; sid:999999; rev:1;)"
+    },
+    "cyber_deception_matrix": {
+      "deception_matrix_status": "active_honey_net_deployed",
+      "canary_trapdoor_token": "trap_b0a972a668f24ddf",
+      "isolated_redirection_proxy": "https://sandbox-isolation.internal.proxy/p?ypal-security.xyz/intercept"
+    },
+    "federated_mesh_consensus": {
+      "federated_consensus_score": 99.15,
+      "gradient_variance": 0.6841,
+      "mesh_nodes_participating": 4,
+      "consensus_status": "decentralized_verified"
+    },
+    "evolutionary_resonance_metrics": {
+      "total_evaluations": 1,
+      "adaptive_mutation_rate": 0.01421,
+      "system_plasticity": "optimal",
+      "last_resonance_timestamp": 1793228996.7424483
+    },
+    "merkle_evidence_tree": {
+      "merkle_root_hash": "557f8e2ac40dd4a42cb6713882b9a8450c473aaa2e56cc1fbab59d7aac9f4faa",
+      "leaf_count": 3,
+      "tree_depth": 3,
+      "sample_leaf_hashes": [
+        "a04c0568d1620e5c03f71094716dbab0bd16703587f1e67dfef6db286f7dd1b9",
+        "299a4d88d5a094ad09b12dcc0873c92deb5724aeae3c4ea198eadaa6d57acfa9",
+        "a270d18f9d51de38b3a773cdd1a7147edd2f4542e70e98c4021bd357f60f5fcf"
+      ]
+    },
+    "architecture_grade": "Apex-Markov-Nash-Sovereign-v8",
+    "cached_hit": false,
+    "zero_trust_enclave": {
+      "enclave_state": "isolated_secure_boundary",
+      "enclave_signature": "5fda4e1ac7333683cf42b77520fa886339855b31408218220d92e66132adf8a2",
+      "policy_enforcement": "strict_zero_trust"
+    },
+    "cryptographic_warrant": {
+      "algorithm": "HMAC-SHA256 + Post-Quantum SHA3-512 Lattice + Merkle-Root",
+      "pqc_lattice_fingerprint": "fdba51757c7b372a298e3ef93737f66a2cef7d1e1c85230bcc5e1ce0b72c38c5",
+      "merkle_evidence_root": "557f8e2ac40dd4a42cb6713882b9a8450c473aaa2e56cc1fbab59d7aac9f4faa",
+      "tamper_proof_signature": "221ca9bf66b200599271900c4025f16f114069963710966e00dc6eaf9f347b22",
+      "immutable_audit_receipt": {
+        "block_index": 1,
+        "block_hash": "54408f372d8728be7bd344b8fe1a32d162236ab1f95b26783a121fd6a58392d7",
+        "ledger_integrity": "immutable_verified"
+      },
+      "status": "apex_sovereign_mathematically_proven"
+    }
+  },
+  "833fb8b816db47fa6f574c9de6bd416ccd73d3df8f319640581429b83fd00ef9": {
+    "is_phishing": true,
+    "confidence": 0.9999999999,
+    "threats": [
+      "Social Engineering",
+      "IDN Homograph Visual Spoofing",
+      "Malicious Links",
+      "Obfuscated Payload / Script Injection",
+      "Zero-Day Topological Structural Anomaly",
+      "Brand Impersonation"
+    ],
+    "evidence": [
+      "The hostname contains multiple hyphens.",
+      "The hostname contains security/account-related branding terms.",
+      "The domain uses the 'xyz' top-level domain, which is treated as a risk signal.",
+      "Mathematical Typosquatting Detection: Token 'p\u0430ypal' exhibits 83% Levenshtein similarity (edit distance d_L = 1) to protected brand 'paypal'.",
+      "Unicode confusable script mixing / Punycode IDN homograph vector detected.",
+      "High Shannon Information Entropy (H = 4.84 bits/char), indicating algorithmic obfuscation or DGA anomaly.",
+      "TDA Homology Anomaly Index: 100.0 (Structural complexity detected).",
+      "The URL contains sensitive-action terms: login.",
+      "High-urgency social engineering linguistic patterns detected.",
+      "AST Inspector unwrapped layers ['Base64-Payload-Armoring'] and flagged sinks ['eval', 'atob', 'exec']."
+    ],
+    "recommendations": [
+      "Nash Optimal Action: IMMEDIATE_AUTONOMOUS_QUARANTINE_AND_BGP_NULL_ROUTE",
+      "Do not submit credentials, banking info, or personal verification data.",
+      "Verify communications independently through official application channels."
+    ],
+    "urls": [
+      {
+        "url": "https://p\u0430ypal-security-portal.xyz/auth/login?token=9xK8mQp2Lz7W",
+        "hostname": "p\u0430ypal-security-portal.xyz",
+        "risk_score": 85,
+        "risk_level": "HIGH",
+        "reasons": [
+          "The domain uses the 'xyz' top-level domain, which is treated as a risk signal.",
+          "The URL contains sensitive-action terms: login.",
+          "The hostname contains security/account-related branding terms.",
+          "The hostname contains multiple hyphens.",
+          "High Shannon Information Entropy (H = 4.84 bits/char), indicating algorithmic obfuscation or DGA anomaly.",
+          "Mathematical Typosquatting Detection: Token 'p\u0430ypal' exhibits 83% Levenshtein similarity (edit distance d_L = 1) to protected brand 'paypal'."
+        ]
+      }
+    ],
+    "security_flags": [],
+    "markov_spectral_graph_analysis": {
+      "markov_transition_entropy": 1.6873,
+      "laplacian_spectral_energy": 28.5167,
+      "transition_matrix_density": 0.0403,
+      "unique_graph_vertices": 60,
+      "directed_graph_edges": 145,
+      "dga_stochastic_anomaly": false
+    },
+    "homograph_punycode_analysis": {
+      "idn_homograph_attack_detected": true,
+      "non_ascii_glyph_count": 1,
+      "punycode_triggers": [
+        "xn--pypal-security-portal-o7q.xyz"
+      ],
+      "canonical_domain_skeletons": [
+        {
+          "original": "p\u0430ypal-security-portal.xyz",
+          "canonical_skeleton": "paypal-security-portal.xyz",
+          "punycode": "xn--pypal-security-portal-o7q.xyz"
+        }
+      ]
+    },
+    "ast_payload_deobfuscation": {
+      "obfuscation_layers_unwrapped": [
+        "Base64-Payload-Armoring"
+      ],
+      "decoded_hidden_artifacts": [
+        "https://c2-server.xyz/bypass"
+      ],
+      "ast_dangerous_sink_tokens": [
+        "eval",
+        "atob",
+        "exec"
+      ],
+      "deep_inspection_triggered": true
+    },
+    "game_theoretic_nash_defense": {
+      "game_model": "Non-Zero-Sum Bimatrix Cyber Defense Game",
+      "nash_equilibrium_strategy_profile": {
+        "probability_hard_quarantine": 0.8275,
+        "probability_deceptive_sinkhole": 0.1725
+      },
+      "expected_defense_utility_payoff": 96.94,
+      "autonomous_optimal_directive": "IMMEDIATE_AUTONOMOUS_QUARANTINE_AND_BGP_NULL_ROUTE"
+    },
+    "topological_analysis": [
+      {
+        "topological_anomaly_score": 100.0,
+        "betti_structural_complexity": 2,
+        "path_irregularity_index": 3,
+        "status": "topological_homology_verified"
+      }
+    ],
+    "swarm_intelligence_consensus": {
+      "swarm_cluster_id": "swarm--59b448ed0a62",
+      "participating_agents": [
+        "Lexical-Agent",
+        "Topological-Agent",
+        "Threat-Intel-Agent",
+        "Entropy-Agent"
+      ],
+      "consensus_confidence_vector": 0.955,
+      "byzantine_fault_tolerance": "verified_secure",
+      "swarm_verdict_malicious": true
+    },
+    "symbolic_theorem_proof": {
+      "symbolic_proof_id": "theorem--b63bc3d7d1",
+      "formal_logic_expression": "\u2200x (Typosquat(x) \u2227 Urgency(x) \u2192 PhishingIntent(x))",
+      "theorem_provably_malicious": true,
+      "confidence_certainty": 1.0
+    },
+    "neural_singularity_fuzzing": {
+      "fuzzing_engine_id": "fuzz--b139942c40cda0b1",
+      "mutation_depth": 7,
+      "evasion_vector_detected": false,
+      "singularity_status": "neural_fuzzing_verified"
+    },
+    "genetic_mutation_engine": {
+      "genetic_generation": 42,
+      "mutation_hash": "8e1494bf44eeb8a7",
+      "fitness_score": 0.9987,
+      "mutation_status": "adversarial_resilience_verified"
+    },
+    "epigenetic_self_healing": {
+      "epigenetic_status": "healed_and_stable",
+      "structural_mutation_token": "8c20b48a51b7",
+      "entropy_mitigation_applied": true
+    },
+    "neural_hive_mind_broadcast": {
+      "hive_sync_status": "synchronized_distributed_immunity",
+      "active_hive_nodes": 128,
+      "origin_node_id": "833fb8b816",
+      "propagation_latency_ms": 0.14
+    },
+    "counter_intelligence_defenses": {
+      "yara_rule": "rule PhishGuard_AutoGenerated_73e98acc {\n    meta:\n        description = \"Auto-generated counter-intelligence rule for Malicious Links\"\n        author = \"PhishGuard AI Autonomous Defense Core\"\n        date = \"2026-10-29\"\n    strings:\n        $s1 = \"The domain uses the 'xyz' top-level domain, which is treated as a risk signal.\" ascii nocase\n    condition:\n        any of them\n}",
+      "snort_signature": "alert tcp any any -> any 80,443 (msg:\"PhishGuard Autonomous Block: Malicious Domain p\u0430ypal-security-portal.xyz\"; content:\"p\u0430ypal-security-portal.xyz\"; sid:999999; rev:1;)"
+    },
+    "cyber_deception_matrix": {
+      "deception_matrix_status": "active_honey_net_deployed",
+      "canary_trapdoor_token": "trap_31be9b766bf7404f",
+      "isolated_redirection_proxy": "https://sandbox-isolation.internal.proxy/p\u0430ypal-security-portal.xyz/intercept"
+    },
+    "federated_mesh_consensus": {
+      "federated_consensus_score": 99.15,
+      "gradient_variance": 0.6841,
+      "mesh_nodes_participating": 4,
+      "consensus_status": "decentralized_verified"
+    },
+    "evolutionary_resonance_metrics": {
+      "total_evaluations": 2,
+      "adaptive_mutation_rate": 0.01422,
+      "system_plasticity": "optimal",
+      "last_resonance_timestamp": 1793229034.4390829
+    },
+    "merkle_evidence_tree": {
+      "merkle_root_hash": "2b5ba0e19c6c9e5b74acbf12301c7d4277477c2c98f0c8c1766dde82ead8d942",
+      "leaf_count": 10,
+      "tree_depth": 5,
+      "sample_leaf_hashes": [
+        "d6390198229a02186ed4af6736060933482dc4687e5680b125eb27334fde15a8",
+        "2cee3046a8e9c52b2955b3e957ac9c948c302ae955d148fe2e7ad51291e22778",
+        "d0c678c8f8531093be4c4e710d35a7f5d5d1ac5983273366947f699d1607c33d",
+        "51aa4c9ac6cafc389e1cc6561c6dc99584e4a6d7c167df89a0b7a6e6925b9702"
+      ]
+    },
+    "architecture_grade": "Apex-Markov-Nash-Sovereign-v8",
+    "cached_hit": false,
+    "zero_trust_enclave": {
+      "enclave_state": "isolated_secure_boundary",
+      "enclave_signature": "7445d5858e263e8c5e09aaa3cbc2057812eff7b00fac4afead8834b0d81f44c5",
+      "policy_enforcement": "strict_zero_trust"
+    },
+    "cryptographic_warrant": {
+      "algorithm": "HMAC-SHA256 + Post-Quantum SHA3-512 Lattice + Merkle-Root",
+      "pqc_lattice_fingerprint": "e1a45f61e421bc5ede4d74a73eb34f491a339140733531e26a9d557ec19a1b87",
+      "merkle_evidence_root": "2b5ba0e19c6c9e5b74acbf12301c7d4277477c2c98f0c8c1766dde82ead8d942",
+      "tamper_proof_signature": "0ab7973d1292273107a07fbe7da8622846b05e76aba82dd585e69ae54b9013c0",
+      "immutable_audit_receipt": {
+        "block_index": 2,
+        "block_hash": "009cc90dd34f3b31d13ae527f6309adb088246025e2a66c2d35208ed4c002c06",
+        "ledger_integrity": "immutable_verified"
+      },
+      "status": "apex_sovereign_mathematically_proven"
+    }
   }
 }

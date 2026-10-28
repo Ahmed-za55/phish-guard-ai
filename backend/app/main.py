@@ -151,3 +151,63 @@ async def analyze_email_endpoint(request: Request, file: UploadFile = File(...))
         raise
     except Exception:
         raise safe_error("Email analysis is temporarily unavailable.", 503)
+
+# === APEX V8 SOVEREIGN TELEMETRY & LEDGER VERIFICATION ENDPOINTS ===
+from fastapi import APIRouter
+import json
+import hashlib
+from app.agents.orchestrator import ThreatOrchestrator
+from app.telemetry.forensic_report import ForensicReportGenerator
+
+@app.post("/analyze/apex")
+async def analyze_apex_full(payload: dict):
+    """
+    Unfiltered Sovereign Mathematical & Cryptographic Telemetry Endpoint:
+    Returns the complete 15-layer mathematical, game-theoretic, and cryptographic analysis.
+    """
+    text = payload.get("text", "")
+    flags = payload.get("security_flags", [])
+    orchestrator_res = await ThreatOrchestrator.analyze_concurrent(text, flags)
+    orchestrator_res["stix_forensic_bundle"] = ForensicReportGenerator.generate_report(orchestrator_res, text)
+    return orchestrator_res
+
+@app.get("/ledger/verify")
+async def verify_immutable_ledger():
+    """
+    Cryptographically verifies the entire Merkle-linked Audit Ledger chain.
+    """
+    ledger_file = Path(__file__).resolve().parent / "storage" / "immutable_audit_ledger.json"
+    if not ledger_file.exists():
+        return {"verified": True, "blocks_count": 0, "status": "genesis_state"}
+    
+    ledger = json.loads(ledger_file.read_text(encoding="utf-8"))
+    prev_hash = "0" * 64
+    for idx, block in enumerate(ledger):
+        if block.get("previous_block_hash") != prev_hash:
+            return {"verified": False, "corrupted_at_block": idx + 1, "reason": "Broken previous_block_hash link"}
+        
+        check_data = {
+            "index": block["index"],
+            "timestamp": block["timestamp"],
+            "report_hash": block["report_hash"],
+            "verdict": block["verdict"],
+            "previous_block_hash": block["previous_block_hash"]
+        }
+        recomputed = hashlib.sha256(json.dumps(check_data, sort_keys=True).encode()).hexdigest()
+        if recomputed != block.get("current_block_hash"):
+            return {"verified": False, "corrupted_at_block": idx + 1, "reason": "SHA-256 hash mismatch"}
+        prev_hash = recomputed
+
+    return {
+        "verified": True,
+        "blocks_count": len(ledger),
+        "latest_block_hash": prev_hash,
+        "integrity_status": "CRYPTOGRAPHICALLY_INTACT_CHAIN"
+    }
+
+from fastapi.responses import HTMLResponse
+
+@app.get("/apex-console", response_class=HTMLResponse)
+async def serve_apex_console():
+    html_file = Path(__file__).resolve().parent / "static" / "apex_console.html"
+    return HTMLResponse(content=html_file.read_text(encoding="utf-8"), status_code=200)

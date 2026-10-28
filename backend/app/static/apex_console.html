@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard AI | Sovereign Apex v8 Cyber-Mathematical Command Console</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #050811; color: #e2e8f0; font-family: 'Segoe UI', system-ui, monospace; }
+        .cyber-card { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); box-shadow: 0 0 25px rgba(14, 165, 233, 0.08); }
+        .cyber-glow { text-shadow: 0 0 10px rgba(56, 189, 248, 0.6); }
+        .mono-box { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.82rem; }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+    <div class="max-w-7xl mx-auto space-y-6">
+        <!-- Header -->
+        <header class="cyber-card rounded-xl p-6 flex flex-col md:flex-row justify-between items-center border-b-2 border-cyan-500">
+            <div>
+                <div class="flex items-center space-x-3">
+                    <span class="px-3 py-1 bg-cyan-950 text-cyan-300 border border-cyan-500 rounded-full text-xs font-bold uppercase tracking-widest">Apex Sovereign v8</span>
+                    <span id="ledgerBadge" class="px-3 py-1 bg-emerald-950 text-emerald-300 border border-emerald-500 rounded-full text-xs font-bold">Merkle Ledger: INTACT</span>
+                </div>
+                <h1 class="text-3xl font-extrabold text-white mt-2 cyber-glow">PHISHGUARD AI // MATHEMATICAL SECURITY ENGINE</h1>
+                <p class="text-slate-400 text-sm mt-1">Markov Spectral Graph • Nash Game Theory • Topological Homology • Neural-Symbolic Proof • Post-Quantum Merkle Ledger</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex gap-3">
+                <button onclick="loadSampleAttack()" class="px-4 py-2 bg-amber-600/20 hover:bg-amber-600/40 text-amber-300 border border-amber-500 rounded-lg text-xs font-bold transition">
+                    ⚡ Load Homograph + Base64 Zero-Day Sample
+                </button>
+                <button onclick="verifyLedger()" class="px-4 py-2 bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500 rounded-lg text-xs font-bold transition">
+                    🛡️ Verify Immutable Audit Chain
+                </button>
+            </div>
+        </header>
+
+        <!-- Input Console -->
+        <section class="cyber-card rounded-xl p-6">
+            <label class="block text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">Threat Payload / Communication Stream Inspection</label>
+            <textarea id="payloadInput" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-4 text-slate-100 mono-box focus:outline-none focus:border-cyan-400" placeholder="Paste email body, suspicious URLs, Punycode domains, or obfuscated scripts..."></textarea>
+            <div class="mt-4 flex justify-between items-center">
+                <span id="latencyIndicator" class="text-xs text-slate-400 mono-box">Ready for real-time mathematical evaluation...</span>
+                <button onclick="executeApexAnalysis()" id="analyzeBtn" class="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg shadow-lg transition">
+                    🚀 EXECUTE 15-LAYER MATHEMATICAL ANALYSIS
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Results Grid -->
+        <div id="resultsContainer" class="hidden space-y-6">
+            <!-- Top KPI Row -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="cyber-card rounded-xl p-5 border-l-4 border-rose-500">
+                    <div class="text-xs text-slate-400 uppercase">Autonomous Verdict</div>
+                    <div id="verdictText" class="text-2xl font-black text-rose-400 mt-1">CRITICAL PHISHING</div>
+                    <div id="confidenceText" class="text-xs text-slate-400 mt-1 mono-box">Confidence: 99.9999%</div>
+                </div>
+                <div class="cyber-card rounded-xl p-5 border-l-4 border-cyan-500">
+                    <div class="text-xs text-slate-400 uppercase">Markov Transition Entropy H(M)</div>
+                    <div id="markovEntropy" class="text-2xl font-black text-cyan-300 mt-1">0.0000 bits</div>
+                    <div id="laplacianEnergy" class="text-xs text-slate-400 mt-1 mono-box">Laplacian Energy E_L: 0.00</div>
+                </div>
+                <div class="cyber-card rounded-xl p-5 border-l-4 border-purple-500">
+                    <div class="text-xs text-slate-400 uppercase">Nash Equilibrium Strategy</div>
+                    <div id="nashProb" class="text-2xl font-black text-purple-300 mt-1">Q: 0.00 / D: 0.00</div>
+                    <div id="nashUtility" class="text-xs text-slate-400 mt-1 mono-box">Expected Utility: 0.00</div>
+                </div>
+                <div class="cyber-card rounded-xl p-5 border-l-4 border-emerald-500">
+                    <div class="text-xs text-slate-400 uppercase">Neural-Symbolic Theorem</div>
+                    <div id="theoremStatus" class="text-lg font-black text-emerald-300 mt-1 truncate">PROVABLY MALICIOUS</div>
+                    <div id="formalLogic" class="text-xs text-slate-400 mt-1 mono-box truncate">∀x (Typosquat(x) ∧ ...)</div>
+                </div>
+            </div>
+
+            <!-- Middle Detailed Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Homograph & AST Deobfuscation -->
+                <div class="cyber-card rounded-xl p-5 space-y-3">
+                    <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider">🔍 Unicode Homograph Skeleton & AST Deobfuscator</h3>
+                    <div id="homographBox" class="bg-slate-950 p-3 rounded border border-slate-800 mono-box text-slate-300 whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Swarm & TDA Homology -->
+                <div class="cyber-card rounded-xl p-5 space-y-3">
+                    <h3 class="text-sm font-bold text-purple-400 uppercase tracking-wider">🐝 Byzantine Swarm Consensus & TDA Homology</h3>
+                    <div id="swarmTdaBox" class="bg-slate-950 p-3 rounded border border-slate-800 mono-box text-slate-300 whitespace-pre-wrap"></div>
+                </div>
+            </div>
+
+            <!-- Counter-Intelligence Rules (YARA & Snort) -->
+            <div class="cyber-card rounded-xl p-5 space-y-3">
+                <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider">🛡️ Active Counter-Intelligence (Auto-Generated YARA & Snort Rules)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <pre id="yaraBox" class="bg-slate-950 p-4 rounded border border-slate-800 mono-box text-emerald-300 overflow-x-auto"></pre>
+                    <div class="space-y-3">
+                        <pre id="snortBox" class="bg-slate-950 p-4 rounded border border-slate-800 mono-box text-amber-300 overflow-x-auto whitespace-pre-wrap"></pre>
+                        <pre id="deceptionBox" class="bg-slate-950 p-4 rounded border border-slate-800 mono-box text-cyan-300 overflow-x-auto whitespace-pre-wrap"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cryptographic Merkle Tree & Post-Quantum Warrant -->
+            <div class="cyber-card rounded-xl p-5 space-y-3">
+                <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">🔐 Post-Quantum Lattice Hash, Binary Merkle Root & Audit Warrant</h3>
+                <pre id="cryptoBox" class="bg-slate-950 p-4 rounded border border-slate-800 mono-box text-slate-300 overflow-x-auto whitespace-pre-wrap"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadSampleAttack() {
+            document.getElementById('payloadInput').value = 'Urgent Security Notice: Execute eval(atob("aHR0cHM6Ly9jMi1zZXJ2ZXIueHl6L2J5cGFzcw==")) and verify your corporate credentials immediately at https://pаypal-security-portal.xyz/auth/login?token=9xK8mQp2Lz7W';
+        }
+
+        async function executeApexAnalysis() {
+            const text = document.getElementById('payloadInput').value.trim();
+            if (!text) return;
+            const btn = document.getElementById('analyzeBtn');
+            const latency = document.getElementById('latencyIndicator');
+            btn.disabled = true;
+            btn.innerText = '⚙️ COMPUTING MARKOV, NASH & MERKLE PROOFS...';
+            const t0 = performance.now();
+
+            try {
+                const res = await fetch('/analyze/apex', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+                const data = await res.json();
+                const dt = (performance.now() - t0).toFixed(1);
+                latency.innerText = `Completed in ${dt} ms | Cache Hit: ${data.cached_hit} | Grade: ${data.architecture_grade}`;
+
+                document.getElementById('resultsContainer').classList.remove('hidden');
+                document.getElementById('verdictText').innerText = data.is_phishing ? 'CRITICAL THREAT' : 'VERIFIED SAFE';
+                document.getElementById('verdictText').className = data.is_phishing ? 'text-2xl font-black text-rose-400 mt-1' : 'text-2xl font-black text-emerald-400 mt-1';
+                document.getElementById('confidenceText').innerText = `Confidence: ${(data.confidence * 100).toFixed(6)}%`;
+
+                const mk = data.markov_spectral_graph_analysis || {};
+                document.getElementById('markovEntropy').innerText = `${mk.markov_transition_entropy ?? 0} bits/step`;
+                document.getElementById('laplacianEnergy').innerText = `Laplacian Energy E_L: ${mk.laplacian_spectral_energy ?? 0} | Vertices: ${mk.unique_graph_vertices ?? 0}`;
+
+                const nash = data.game_theoretic_nash_defense || {};
+                const prof = nash.nash_equilibrium_strategy_profile || {};
+                document.getElementById('nashProb').innerText = `Quarantine: ${(prof.probability_hard_quarantine * 100 || 0).toFixed(1)}%`;
+                document.getElementById('nashUtility').innerText = `Payoff: ${nash.expected_defense_utility_payoff ?? 0} | ${nash.autonomous_optimal_directive ?? ''}`;
+
+                const sym = data.symbolic_theorem_proof || {};
+                document.getElementById('theoremStatus').innerText = sym.theorem_provably_malicious ? 'PROVABLY MALICIOUS' : 'HEURISTIC BOUND';
+                document.getElementById('formalLogic').innerText = sym.formal_logic_expression || '';
+
+                document.getElementById('homographBox').innerText = JSON.stringify({
+                    homograph_punycode: data.homograph_punycode_analysis,
+                    ast_deobfuscation: data.ast_payload_deobfuscation
+                }, null, 2);
+
+                document.getElementById('swarmTdaBox').innerText = JSON.stringify({
+                    swarm_consensus: data.swarm_intelligence_consensus,
+                    topological_homology: data.topological_analysis,
+                    federated_consensus: data.federated_mesh_consensus
+                }, null, 2);
+
+                const ci = data.counter_intelligence_defenses || {};
+                document.getElementById('yaraBox').innerText = ci.yara_rule || '// No YARA rule triggered';
+                document.getElementById('snortBox').innerText = 'SNORT SIGNATURE:\n' + (ci.snort_signature || 'N/A');
+                document.getElementById('deceptionBox').innerText = 'DECEPTION HONEY-MATRIX:\n' + JSON.stringify(data.cyber_deception_matrix || {}, null, 2);
+
+                document.getElementById('cryptoBox').innerText = JSON.stringify({
+                    merkle_evidence_tree: data.merkle_evidence_tree,
+                    cryptographic_warrant: data.cryptographic_warrant,
+                    zero_trust_enclave: data.zero_trust_enclave
+                }, null, 2);
+            } catch (e) {
+                latency.innerText = 'Error: ' + e.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerText = '🚀 EXECUTE 15-LAYER MATHEMATICAL ANALYSIS';
+            }
+        }
+
+        async function verifyLedger() {
+            const res = await fetch('/ledger/verify');
+            const data = await res.json();
+            const badge = document.getElementById('ledgerBadge');
+            badge.innerText = `Merkle Ledger: ${data.integrity_status} (${data.blocks_count} Blocks)`;
+            alert(JSON.stringify(data, null, 2));
+        }
+    </script>
+</body>
+</html>
