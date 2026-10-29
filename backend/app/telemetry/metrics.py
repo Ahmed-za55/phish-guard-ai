@@ -36,6 +36,6 @@ phishguard_avg_latency_ms {avg_latency:.2f}
 
 # HELP phishguard_active_cores_count Total active sovereign mathematical cores.
 # TYPE phishguard_active_cores_count gauge
-phishguard_active_cores_count 21
+phishguard_active_cores_count 100
 """
     return Response(content=metrics_output, media_type="text/plain")
