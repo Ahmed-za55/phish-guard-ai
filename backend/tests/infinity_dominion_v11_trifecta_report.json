@@ -1,0 +1,26 @@
+{
+  "suite": "PHISHGUARD_SOVEREIGN_v11.0_INFINITY_DOMINION_TRIFECTA_VERIFICATION",
+  "task_1_ood_generalization": {
+    "ood_zero_day_recall_pct": 100.0,
+    "ambiguous_abstention_accuracy_pct": 100.0,
+    "false_positive_rate_pct": 0.0,
+    "selective_accuracy_pct": 100.0
+  },
+  "task_2_insider_breach_containment": {
+    "quarantined_rogue_agent": "agent_parser_insider_breach",
+    "plane_5_research_compromised": false,
+    "plane_6_trust_ledger_compromised": false,
+    "plane_7_validation_bypassed": false
+  },
+  "task_3_7plane_performance_benchmark": {
+    "iterations": 300,
+    "throughput_rps": 3781.8,
+    "avg_ms": 0.2466,
+    "p50_ms": 0.2259,
+    "p95_ms": 0.3907,
+    "p99_ms": 0.5087,
+    "peak_memory_kb": 22.4,
+    "net_memory_delta_kb": 20.14
+  },
+  "overall_status": "100%_VERIFIED_DOMINION_GRADE"
+}
