@@ -1,0 +1,12 @@
+{
+  "name": "phishguard-desktop",
+  "version": "70.0.0",
+  "description": "Apex Sovereign PhishGuard AI Desktop Client",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^31.0.0"
+  }
+}

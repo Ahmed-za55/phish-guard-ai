@@ -1,0 +1,94 @@
+{
+  "1. Baseline: Neural Classifier Only": {
+    "TP": 50,
+    "FP": 150,
+    "TN": 50,
+    "FN": 150,
+    "accuracy_pct": 25.0,
+    "precision_pct": 25.0,
+    "recall_pct": 25.0,
+    "f1_pct": 25.0,
+    "fpr_pct": 75.0,
+    "fnr_pct": 75.0,
+    "brier_score": 0.3588,
+    "cohort_accuracy_pct": {
+      "1_Standard_Phishing": 100.0,
+      "2_Stealth_Brand_Spoof": 0.0,
+      "3_MultiHop_Redirect_Phish": 0.0,
+      "4_ZeroDay_OpenSet_Attack": 0.0,
+      "5_Standard_Benign": 100.0,
+      "6_Benign_Security_Newsletter": 0.0,
+      "7_Benign_Dev_Portal": 0.0,
+      "8_Benign_Corporate_Invoice": 0.0
+    }
+  },
+  "2. Ablation A: Neural + Symbolic Constraints": {
+    "TP": 150,
+    "FP": 150,
+    "TN": 50,
+    "FN": 50,
+    "accuracy_pct": 50.0,
+    "precision_pct": 50.0,
+    "recall_pct": 75.0,
+    "f1_pct": 60.0,
+    "fpr_pct": 75.0,
+    "fnr_pct": 25.0,
+    "brier_score": 0.2596,
+    "cohort_accuracy_pct": {
+      "1_Standard_Phishing": 100.0,
+      "2_Stealth_Brand_Spoof": 100.0,
+      "3_MultiHop_Redirect_Phish": 100.0,
+      "4_ZeroDay_OpenSet_Attack": 0.0,
+      "5_Standard_Benign": 100.0,
+      "6_Benign_Security_Newsletter": 0.0,
+      "7_Benign_Dev_Portal": 0.0,
+      "8_Benign_Corporate_Invoice": 0.0
+    }
+  },
+  "3. Ablation B: Neuro-Symbolic + Causal SCM": {
+    "TP": 150,
+    "FP": 0,
+    "TN": 200,
+    "FN": 50,
+    "accuracy_pct": 87.5,
+    "precision_pct": 100.0,
+    "recall_pct": 75.0,
+    "f1_pct": 85.71,
+    "fpr_pct": 0.0,
+    "fnr_pct": 25.0,
+    "brier_score": 0.1294,
+    "cohort_accuracy_pct": {
+      "1_Standard_Phishing": 100.0,
+      "2_Stealth_Brand_Spoof": 100.0,
+      "3_MultiHop_Redirect_Phish": 100.0,
+      "4_ZeroDay_OpenSet_Attack": 0.0,
+      "5_Standard_Benign": 100.0,
+      "6_Benign_Security_Newsletter": 100.0,
+      "7_Benign_Dev_Portal": 100.0,
+      "8_Benign_Corporate_Invoice": 100.0
+    }
+  },
+  "4. Full Godtier Oracle (+ Zero-Day Open-Set)": {
+    "TP": 200,
+    "FP": 0,
+    "TN": 200,
+    "FN": 0,
+    "accuracy_pct": 100.0,
+    "precision_pct": 100.0,
+    "recall_pct": 100.0,
+    "f1_pct": 100.0,
+    "fpr_pct": 0.0,
+    "fnr_pct": 0.0,
+    "brier_score": 0.0597,
+    "cohort_accuracy_pct": {
+      "1_Standard_Phishing": 100.0,
+      "2_Stealth_Brand_Spoof": 100.0,
+      "3_MultiHop_Redirect_Phish": 100.0,
+      "4_ZeroDay_OpenSet_Attack": 100.0,
+      "5_Standard_Benign": 100.0,
+      "6_Benign_Security_Newsletter": 100.0,
+      "7_Benign_Dev_Portal": 100.0,
+      "8_Benign_Corporate_Invoice": 100.0
+    }
+  }
+}

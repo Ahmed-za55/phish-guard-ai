@@ -1,3 +1,5 @@
+from app.nextgen_core.nextgen_router import router as nextgen_quad_router
+from app.infinity_dominion_v11.dominion_router import router as dominion_v11_router
 import os
 import sys
 from pathlib import Path
@@ -214,3 +216,7 @@ async def serve_apex_console():
 
 from app.telemetry.metrics import router as metrics_router
 app.include_router(metrics_router)
+
+app.include_router(dominion_v11_router)
+
+app.include_router(nextgen_quad_router)

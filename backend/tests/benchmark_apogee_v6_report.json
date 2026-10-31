@@ -1,0 +1,85 @@
+{
+  "benchmark_version": "Apogee-v6.0-Telemetry-Benchmark",
+  "iterations": 300,
+  "throughput_rps": 875.98,
+  "latency_ms": {
+    "avg": 1.1356,
+    "p50": 1.0725,
+    "p90": 1.4262,
+    "p95": 1.603,
+    "p99": 1.981,
+    "max": 2.869
+  },
+  "memory_kb": {
+    "peak_kb": 538.87,
+    "net_growth_kb": 524.89,
+    "per_request_kb": 1.75
+  },
+  "per_layer_breakdown_ms": {
+    "Prometheus \u03a9 (v77)": {
+      "avg_ms": 0.0789,
+      "p95_ms": 0.1338,
+      "p99_ms": 0.1573
+    },
+    "Ascension \u03a9 (v78)": {
+      "avg_ms": 0.0319,
+      "p95_ms": 0.0661,
+      "p99_ms": 0.0996
+    },
+    "Apocalypse Tier (v2.0)": {
+      "avg_ms": 0.0344,
+      "p95_ms": 0.0674,
+      "p99_ms": 0.0999
+    },
+    "Omega Frontier": {
+      "avg_ms": 0.0301,
+      "p95_ms": 0.0346,
+      "p99_ms": 0.0423
+    },
+    "Infinity Frontier (v79)": {
+      "avg_ms": 0.015,
+      "p95_ms": 0.0189,
+      "p99_ms": 0.0462
+    },
+    "Absolute Zero (v80)": {
+      "avg_ms": 0.0069,
+      "p95_ms": 0.0074,
+      "p99_ms": 0.0109
+    },
+    "Genesis \u03a9 (v81)": {
+      "avg_ms": 0.0026,
+      "p95_ms": 0.0028,
+      "p99_ms": 0.0042
+    },
+    "Transcendence \u03a9 (v82)": {
+      "avg_ms": 0.0086,
+      "p95_ms": 0.0091,
+      "p99_ms": 0.0184
+    },
+    "Omega Genesis \u221e (v83)": {
+      "avg_ms": 0.0121,
+      "p95_ms": 0.0126,
+      "p99_ms": 0.0173
+    },
+    "Omega Ascendant (v4.0)": {
+      "avg_ms": 0.0118,
+      "p95_ms": 0.0129,
+      "p99_ms": 0.0213
+    },
+    "Frontier Expansion (v5.0)": {
+      "avg_ms": 0.017,
+      "p95_ms": 0.0479,
+      "p99_ms": 0.1923
+    },
+    "Apogee Architecture (v6.0)": {
+      "avg_ms": 0.0557,
+      "p95_ms": 0.0861,
+      "p99_ms": 0.1093
+    }
+  },
+  "slo_verification": {
+    "p95_under_50ms": true,
+    "p99_under_100ms": true,
+    "peak_memory_under_50mb": true
+  }
+}

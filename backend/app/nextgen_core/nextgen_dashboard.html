@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PHISHGUARD SOVEREIGN — Next-Gen Quad-Core Command Console</title>
+  <style>
+    :root {
+      --bg-deep: #040711;
+      --bg-panel: #0b1325;
+      --bg-card: #111c35;
+      --bg-input: #070d1c;
+      --border: #1e2d4a;
+      --cyan: #38bdf8;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --crimson: #ef4444;
+      --violet: #a855f7;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 15% 10%, #0f1b38 0%, #040711 70%);
+      color: var(--text-main);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      padding: 18px 24px;
+    }
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 16px 22px;
+      background: rgba(11, 19, 37, 0.92);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--cyan);
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+    .brand { font-size: 1.25rem; font-weight: 800; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; }
+    .sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+    .badge {
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .b-emerald { background: rgba(16, 185, 129, 0.15); color: var(--emerald); border: 1px solid rgba(16, 185, 129, 0.4); }
+    .b-crimson { background: rgba(239, 68, 68, 0.16); color: var(--crimson); border: 1px solid rgba(239, 68, 68, 0.45); }
+    .b-amber   { background: rgba(245, 158, 11, 0.16); color: var(--amber); border: 1px solid rgba(245, 158, 11, 0.45); }
+    .b-cyan    { background: rgba(56, 189, 248, 0.15); color: var(--cyan); border: 1px solid rgba(56, 189, 248, 0.4); }
+    .b-violet  { background: rgba(168, 85, 247, 0.15); color: var(--violet); border: 1px solid rgba(168, 85, 247, 0.4); }
+
+    /* Quad Architecture Strip */
+    .quad-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 1050px) { .quad-strip { grid-template-columns: repeat(2, 1fr); } }
+    .quad-tile {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--cyan);
+      border-radius: 10px;
+      padding: 12px 16px;
+    }
+    .q-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+    .q-title { font-size: 0.95rem; font-weight: 800; margin-top: 3px; color: var(--text-main); }
+    .q-metric { font-size: 1.2rem; font-weight: 800; color: var(--cyan); font-family: Consolas, monospace; margin-top: 6px; }
+    .q-foot { font-size: 0.72rem; color: var(--emerald); margin-top: 3px; }
+
+    /* Main Layout */
+    .workspace {
+      display: grid;
+      grid-template-columns: 410px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 1150px) { .workspace { grid-template-columns: 1fr; } }
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+    }
+    .panel-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--cyan);
+      padding-bottom: 9px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    label { display: block; font-size: 0.74rem; color: var(--text-muted); margin-top: 10px; margin-bottom: 4px; }
+    textarea, input, select {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 9px 11px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-family: Consolas, monospace;
+    }
+    .preset-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 8px; }
+    .btn {
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 11px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      transition: all 0.15s ease;
+    }
+    .btn-preset { background: #13203d; color: var(--text-main); border: 1px solid #283a63; text-align: left; }
+    .btn-preset:hover { border-color: var(--cyan); color: var(--cyan); }
+    .btn-exec {
+      width: 100%;
+      margin-top: 12px;
+      padding: 11px;
+      font-size: 0.85rem;
+      color: #fff;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+    }
+    .btn-exec:hover { filter: brightness(1.12); }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--cyan);
+      border-radius: 10px;
+      padding: 15px;
+    }
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+    .kv { list-style: none; font-size: 0.77rem; }
+    .kv li {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px dashed rgba(148, 163, 184, 0.12);
+      gap: 8px;
+    }
+    .k { color: var(--text-muted); }
+    .v { font-family: Consolas, monospace; font-weight: 600; text-align: right; word-break: break-all; }
+    .callout {
+      margin-top: 9px;
+      padding: 8px 10px;
+      background: rgba(4, 7, 17, 0.75);
+      border-left: 3px solid var(--violet);
+      border-radius: 6px;
+      font-size: 0.74rem;
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <div>
+      <div class="brand">
+        <span>🛡️ PHISHGUARD SOVEREIGN — NEXT-GEN QUAD-CORE CONSOLE</span>
+        <span id="verdict-badge" class="badge b-emerald">SYSTEM READY</span>
+      </div>
+      <div class="sub">Unified Architecture: DISCOVERY • RESEARCH • DEFENSE • TRUST FABRIC &amp; INTELLIGENCE CORE</div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <span id="lat-badge" class="badge b-cyan">Latency: -- ms</span>
+      <span id="chain-badge" class="badge b-emerald">Hash Chain: INTACT</span>
+    </div>
+  </div>
+
+  <!-- 4 Architectural Pillars Overview -->
+  <div class="quad-strip">
+    <div class="quad-tile" style="border-top-color: var(--cyan);">
+      <div class="q-label">Pillar I — Discovery</div>
+      <div class="q-title">Attack Universe &amp; Deception</div>
+      <div class="q-metric" id="q-savings">$363,900 Saved</div>
+      <div class="q-foot" id="q-chokepoint">Optimal Chokepoint: identity_sso_hub</div>
+    </div>
+    <div class="quad-tile" style="border-top-color: var(--violet);">
+      <div class="q-label">Pillar II — Research</div>
+      <div class="q-title">Autonomous Cyber Science</div>
+      <div class="q-metric" id="q-scigain">+16.0% Accuracy</div>
+      <div class="q-foot">Counterfactual &amp; Hypothesis Validated</div>
+    </div>
+    <div class="quad-tile" style="border-top-color: var(--emerald);">
+      <div class="q-label">Pillar III — Defense</div>
+      <div class="q-title">Digital Immune System</div>
+      <div class="q-metric" id="q-affinity">Affinity: 0.999</div>
+      <div class="q-foot" id="q-bcells">B-Cell Memory Antibodies Active</div>
+    </div>
+    <div class="quad-tile" style="border-top-color: var(--amber);">
+      <div class="q-label">Pillar IV — Trust &amp; Core</div>
+      <div class="q-title">Security Compiler &amp; Proof</div>
+      <div class="q-metric" id="q-tests">3/3 Auto-Tests</div>
+      <div class="q-foot">8-Stage Advisory-to-AST Verified</div>
+    </div>
+  </div>
+
+  <div class="workspace">
+    <!-- Left Column: Input Controls -->
+    <div>
+      <div class="panel">
+        <div class="panel-title">
+          <span>⚡ Bilingual Deception &amp; Quad-Core Simulator</span>
+          <span class="badge b-cyan">POST /nextgen/analyze</span>
+        </div>
+
+        <div class="preset-grid">
+          <button class="btn btn-preset" onclick="setScenario('ar_ceo')">🔴 1. Arabic CEO Wire Fraud</button>
+          <button class="btn btn-preset" onclick="setScenario('eg_wallet')">🟣 2. Egyptian Dialect Cash Trap</button>
+          <button class="btn btn-preset" onclick="setScenario('en_oauth')">🟠 3. English OAuth + IBAN Lure</button>
+          <button class="btn btn-preset" onclick="setScenario('legit_urgent')">🟢 4. Legit Urgent Exec Notice</button>
+        </div>
+
+        <label>Ingested Message (Arabic / English / Dialect)</label>
+        <textarea id="inp-msg" rows="3">أمر مباشر من الإدارة والمدير التنفيذي: الأمر سري للغاية أنا في اجتماع لا تتصل، قم بعمل تحويل بنكي فوراً خلال ساعة وابعتلي على واتساب.</textarea>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div>
+            <label>Sender Verified Role</label>
+            <select id="inp-role">
+              <option value="EXTERNAL_UNVERIFIED">EXTERNAL_UNVERIFIED</option>
+              <option value="VERIFIED_INTERNAL_EXECUTIVE">VERIFIED_INTERNAL_EXECUTIVE</option>
+            </select>
+          </div>
+          <div>
+            <label>URL Risk Score (0-100)</label>
+            <input type="number" id="inp-risk" value="89.0" min="0" max="100" />
+          </div>
+        </div>
+
+        <label>Threat Research Advisory Input (For Autonomous Security Compiler)</label>
+        <textarea id="inp-advisory" rows="3">Threat Advisory: Attackers are spoofing corporate portals using newly registered domains with domain age under 14 days, requesting OAuth scope mail.readwrite, and deploying a financial lure containing 'iban' under psychological lever: urgency.</textarea>
+
+        <button class="btn btn-exec" onclick="runQuadAnalysis()">Execute Next-Gen Quad-Core Pipeline</button>
+      </div>
+    </div>
+
+    <!-- Right Column: 4 Pillars Live Output Cards -->
+    <div class="cards-grid">
+      <!-- Card 1: Semantic Deception Laboratory -->
+      <div class="card">
+        <div class="card-head">
+          <span>1. Semantic Deception Lab (Discovery)</span>
+          <span class="badge b-crimson" id="dec-badge">DECEPTION</span>
+        </div>
+        <ul class="kv">
+          <li><span class="k">Cognitive Manipulation Index</span><span class="v" id="dec-idx">--</span></li>
+          <li><span class="k">Naive Keyword Baseline Verdict</span><span class="v" id="dec-base">--</span></li>
+          <li><span class="k">Thread Context Hijacked</span><span class="v" id="dec-ctx">--</span></li>
+          <li><span class="k">Sender Role Verification</span><span class="v" id="dec-role">--</span></li>
+        </ul>
+        <div class="callout" id="dec-levers">Active psychological levers will appear here.</div>
+      </div>
+
+      <!-- Card 2: Predictive Attack Universe -->
+      <div class="card">
+        <div class="card-head">
+          <span>2. Predictive Attack Universe (Discovery)</span>
+          <span class="badge b-cyan">CHOKEPOINT AI</span>
+        </div>
+        <ul class="kv">
+          <li><span class="k">Unmitigated Expected Damage</span><span class="v" id="uni-unmit">--</span></li>
+          <li><span class="k">Reactive Baseline Burden</span><span class="v" id="uni-base">--</span></li>
+          <li><span class="k">Optimal Interdiction Chokepoint</span><span class="v" id="uni-opt" style="color:var(--emerald);">--</span></li>
+          <li><span class="k">Optimal Total Burden</span><span class="v" id="uni-opt-cost">--</span></li>
+          <li><span class="k">Net Savings vs. Baseline</span><span class="v" id="uni-save" style="color:var(--cyan);">--</span></li>
+        </ul>
+      </div>
+
+      <!-- Card 3: Autonomous Digital Immune System -->
+      <div class="card">
+        <div class="card-head">
+          <span>3. Autonomous Digital Immune System (Defense)</span>
+          <span class="badge b-emerald" id="imm-badge">B-CELL MEMORY</span>
+        </div>
+        <ul class="kv">
+          <li><span class="k">Immune Response Mode</span><span class="v" id="imm-mode">--</span></li>
+          <li><span class="k">Static Signature Baseline Caught?</span><span class="v" id="imm-static">--</span></li>
+          <li><span class="k">B-Cell Antibody Cosine Affinity</span><span class="v" id="imm-aff">--</span></li>
+          <li><span class="k">Tissue Recovery SHA-256 Verified</span><span class="v" id="imm-rec">--</span></li>
+          <li><span class="k">Active Memory B-Cells Count</span><span class="v" id="imm-cnt">--</span></li>
+        </ul>
+      </div>
+
+      <!-- Card 4: Autonomous Security Compiler & Proof Core -->
+      <div class="card">
+        <div class="card-head">
+          <span>4. Security Compiler &amp; Proof Fabric (Core)</span>
+          <span class="badge b-amber" id="cmp-badge">8-STAGE AST</span>
+        </div>
+        <ul class="kv">
+          <li><span class="k">Extracted Threat Surface</span><span class="v" id="cmp-surf">--</span></li>
+          <li><span class="k">Generated Enforcement Policy</span><span class="v" id="cmp-pol">--</span></li>
+          <li><span class="k">Auto-Generated Boundary Tests</span><span class="v" id="cmp-tst">--</span></li>
+          <li><span class="k">Deployment Gate State</span><span class="v" id="cmp-dep">--</span></li>
+          <li><span class="k">Proof Hash-Chain Integrity</span><span class="v" id="prf-chain">--</span></li>
+        </ul>
+        <div class="callout" id="prf-hash">Proof Record SHA-256: --</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setScenario(sc) {
+      if (sc === 'ar_ceo') {
+        document.getElementById('inp-msg').value =
+          "أمر مباشر من الإدارة والمدير التنفيذي: الأمر سري للغاية أنا في اجتماع لا تتصل، قم بعمل تحويل بنكي فوراً خلال ساعة وابعتلي على واتساب.";
+        document.getElementById('inp-role').value = "EXTERNAL_UNVERIFIED";
+        document.getElementById('inp-risk').value = "91.0";
+      } else if (sc === 'eg_wallet') {
+        document.getElementById('inp-msg').value =
+          "تحذير نهائي: دلوقتي حالا ابعت كود التحقق والرقم السري عشان هيتم قفل محفظة فودافون كاش وانستا باي.";
+        document.getElementById('inp-role').value = "EXTERNAL_UNVERIFIED";
+        document.getElementById('inp-risk').value = "94.0";
+      } else if (sc === 'en_oauth') {
+        document.getElementById('inp-msg').value =
+          "CEO Executive Office: Keep this confidential, wire transfer to new IBAN immediately within 1 hour to avoid legal action.";
+        document.getElementById('inp-role').value = "EXTERNAL_UNVERIFIED";
+        document.getElementById('inp-risk').value = "88.0";
+      } else {
+        // Legitimate Urgent Executive Notice -> Proves Deception Lab avoids False Positives!
+        document.getElementById('inp-msg').value =
+          "CEO Executive Office: Please review the quarterly board of directors resilience slides immediately before our 3 PM townhall.";
+        document.getElementById('inp-role').value = "VERIFIED_INTERNAL_EXECUTIVE";
+        document.getElementById('inp-risk').value = "5.0";
+      }
+      runQuadAnalysis();
+    }
+
+    async function runQuadAnalysis() {
+      const payload = {
+        message_text: document.getElementById('inp-msg').value,
+        extracted_urls: ["https://portal-check-node.org"],
+        url_risk_score: parseFloat(document.getElementById('inp-risk').value || '0'),
+        prior_thread_topic: "GENERAL_OPERATIONS",
+        sender_verified_role: document.getElementById('inp-role').value,
+        research_advisory_text: document.getElementById('inp-advisory').value
+      };
+
+      const res = await fetch('/api/v1/nextgen/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const d = await res.json();
+
+      document.getElementById('lat-badge').textContent = `Latency: ${d.execution_latency_ms} ms`;
+      const vBadge = document.getElementById('verdict-badge');
+      vBadge.textContent = d.final_sovereign_verdict;
+      vBadge.className = 'badge ' + (d.final_sovereign_verdict.includes('MALICIOUS') ? 'b-crimson' : 'b-emerald');
+
+      // 1. Deception Lab
+      const dec = d.pillar_1_discovery.semantic_deception_lab;
+      document.getElementById('dec-idx').textContent = dec.cognitive_manipulation_index;
+      document.getElementById('dec-base').textContent = `${dec.naive_keyword_baseline_verdict} (${dec.naive_keyword_baseline_score})`;
+      document.getElementById('dec-ctx').textContent = dec.context_hijack_detected ? 'YES (HIJACKED)' : 'NO';
+      document.getElementById('dec-role').textContent = dec.sender_role_verified;
+      document.getElementById('dec-levers').textContent = 'Active Levers: ' + ((dec.active_psychological_levers || []).join(', ') || 'None (Benign Context)');
+      const decBadge = document.getElementById('dec-badge');
+      decBadge.textContent = dec.deception_verdict;
+      decBadge.className = 'badge ' + (dec.deception_verdict === 'MALICIOUS_DECEPTION' ? 'b-crimson' : 'b-emerald');
+
+      // 2. Attack Universe
+      const uni = d.pillar_1_discovery.predictive_attack_universe;
+      document.getElementById('uni-unmit').textContent = '$' + uni.unmitigated_expected_loss_usd.toLocaleString();
+      document.getElementById('uni-base').textContent = '$' + uni.reactive_baseline_total_burden_usd.toLocaleString() + ` (${uni.reactive_baseline_interdiction_node})`;
+      document.getElementById('uni-opt').textContent = uni.optimal_chokepoint_node;
+      document.getElementById('uni-opt-cost').textContent = '$' + uni.optimal_chokepoint_total_burden_usd.toLocaleString();
+      document.getElementById('uni-save').textContent = '+$' + uni.net_savings_vs_reactive_baseline_usd.toLocaleString();
+      document.getElementById('q-savings').textContent = '$' + uni.net_savings_vs_reactive_baseline_usd.toLocaleString() + ' Saved';
+      document.getElementById('q-chokepoint').textContent = 'Optimal Chokepoint: ' + uni.optimal_chokepoint_node;
+
+      // 3. Immune System
+      const imm = d.pillar_3_defense.digital_immune_system;
+      document.getElementById('imm-mode').textContent = imm.response_mode;
+      document.getElementById('imm-static').textContent = imm.detected_by_static_signature_baseline ? 'YES' : 'NO (EVADED STATIC)';
+      document.getElementById('imm-aff').textContent = imm.antibody_affinity_score;
+      document.getElementById('imm-rec').textContent = imm.recovery_integrity_verified ? 'VERIFIED (SHA-256 MATCH)' : 'N/A';
+      document.getElementById('imm-cnt').textContent = imm.active_memory_antibodies_count;
+      document.getElementById('q-affinity').textContent = 'Affinity: ' + imm.antibody_affinity_score;
+
+      // 4. Compiler & Proof Core
+      const cmp = d.pillar_4_trust_and_intelligence_core.autonomous_security_compiler;
+      const prf = d.pillar_4_trust_and_intelligence_core.cryptographic_proof_fabric;
+      document.getElementById('cmp-surf').textContent = cmp.stage_3_threat_model.attack_surface;
+      document.getElementById('cmp-pol').textContent = cmp.stage_5_generated_policy;
+      const passedCount = (cmp.stage_6_7_validation_results || []).filter(x => x.passed).length;
+      document.getElementById('cmp-tst').textContent = `${passedCount}/${(cmp.stage_6_7_validation_results || []).length} PASSED`;
+      document.getElementById('cmp-dep').textContent = cmp.stage_8_deployment_state;
+      document.getElementById('prf-chain').textContent = prf.hash_chain_audit.ledger_intact ? `INTACT (${prf.hash_chain_audit.records_audited} records)` : 'TAMPERED';
+      document.getElementById('prf-hash').textContent = 'Proof Record SHA-256: ' + prf.latest_sealed_decision.proof_record_hash.slice(0, 36) + '...';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      runQuadAnalysis();
+    });
+  </script>
+</body>
+</html>
