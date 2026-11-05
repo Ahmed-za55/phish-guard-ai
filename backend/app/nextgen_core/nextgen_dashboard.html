@@ -357,8 +357,7 @@
     async function runQuadAnalysis() {
       const payload = {
         message_text: document.getElementById('inp-msg').value,
-        extracted_urls: ["https://portal-check-node.org"],
-        url_risk_score: parseFloat(document.getElementById('inp-risk').value || '0'),
+        extracted_urls: (document.getElementById('inp-msg').value.match(/https?:\/\/[^\s"'<>]+/g) || []),
         prior_thread_topic: "GENERAL_OPERATIONS",
         sender_verified_role: document.getElementById('inp-role').value,
         research_advisory_text: document.getElementById('inp-advisory').value

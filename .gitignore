@@ -8,3 +8,10 @@ daemon/
 phishguard_audit_bundle.zip
 project_structure_clean.txt
 pre_push_audit_results.json
+# --- add these lines to your .gitignore ---
+backend/data/
+*.bak
+__pycache__/
+.pytest_cache/
+venv/
+.env
