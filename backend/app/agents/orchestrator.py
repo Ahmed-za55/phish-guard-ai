@@ -1,4 +1,4 @@
-from app.apocalypse_frontier_v9.apocalypse_phase1_master import ApocalypsePhase1MasterNexus
+﻿from app.apocalypse_frontier_v9.apocalypse_phase1_master import ApocalypsePhase1MasterNexus
 from app.godtier_v7.godtier_master import GodtierInitiativeMasterNexusV7
 from app.apogee_v6.apogee_master import ApogeeArchitectureMasterNexusV6
 from app.apocalypse_v2_0.apocalypse_master import ApocalypseTierMasterNexusV2
@@ -84,26 +84,6 @@ from app.apex_singularity_v39.v39_engine import (
     NonAbelianAnyonBraidingCore,
     EntangledQuantumTeleportationMesh
 )
-from app.apex_singularity_v40.v40_engine import (
-    HolographicAdSCFTEntanglementMatrix,
-    QuantumGravityZetaSynchronizer
-)
-from app.apex_singularity_v41.v41_engine import (
-    NonCommutativeSpacetimeTopology,
-    QuantumSingularityContinuumCore
-)
-from app.apex_singularity_v42.v42_engine import (
-    OmniversalTransfiniteHyperResonance,
-    AbsoluteSingularityHorizonCore
-)
-from app.apex_singularity_v43.v43_engine import (
-    OmniversalSingularityLatticeCore,
-    TransDimensionalEntanglementSynchronizer
-)
-from app.apex_singularity_v44.v44_engine import (
-    QuantumHolographicMTheoryBulkCore,
-    AbsoluteZeroPointSingularityCore
-)
 from app.apex_singularity_v45.v45_engine import (
     TransfiniteZetaMultiverseCore,
     AbsoluteChronoSpatialSentinel
@@ -187,7 +167,7 @@ from app.local_agent.agent_runner import LocalAutonomousAgentRunner
 
 class ThreatOrchestrator:
     """
-    The Ultimate Sovereign Apex Organism (v70 — Absolute Transcendence):
+    The Ultimate Sovereign Apex Organism (v70 â€” Absolute Transcendence):
     Integrates 100+ sovereign cores with Electron Desktop, Local Agent Runner, and PyPI Sovereign Package.
     """
     @staticmethod
@@ -324,7 +304,7 @@ class ThreatOrchestrator:
         quantum_vacuum = QuantumVacuumFluctuationDetector.analyze_vacuum_fluctuations(payload_hash_key)
         hyper_causal_shield = HyperCausalInvarianceShield.enforce_causal_invariance(payload_hash_key)
         hott_proof = HomotopyTypeTheoreticProofEngine.verify_univalent_proof(payload_hash_key)
-        anyon_braiding = NonAbelianAnyonBraidingCore.compute_anyon_braid(payload_hash_key)
+        anyon_braiding = NonAbelianAnyonBraidingCore.compute_anyon_braiding(payload_hash_key)
         chronon_sync = PlanckScaleChrononSynchronizer.synchronize_chronon_grid(payload_hash_key)
         ads_cft_duality = AdSCFTHolographicDualityEngine.project_bulk_to_boundary(payload_hash_key)
         kolmogorov_complexity = KolmogorovAlgorithmicComplexityAnalyzer.evaluate_kolmogorov_complexity(text, payload_hash_key)
@@ -338,12 +318,10 @@ class ThreatOrchestrator:
         riemann_zeta = RiemannHypothesisZetaZeroAnalyzer.evaluate_zeta_zeros(payload_hash_key)
         non_commutative = NonCommutativeGeometryProtector.enforce_non_commutative_algebra(payload_hash_key)
         omniversal_anchor = AbsoluteOmniversalSingularityAnchor.anchor_omniversal_singularity(payload_hash_key)
-        v39_anyon = NonAbelianAnyonBraidingCore.compute_anyon_braid(payload_hash_key)
+        v39_anyon = NonAbelianAnyonBraidingCore.compute_anyon_braiding(payload_hash_key)
         v39_teleport = EntangledQuantumTeleportationMesh.execute_quantum_teleport(payload_hash_key)
         v40_holographic = HolographicAdSCFTEntanglementMatrix.compute_holographic_matrix(payload_hash_key)
         v40_qg_zeta = QuantumGravityZetaSynchronizer.synchronize_quantum_gravity(payload_hash_key)
-        v41_nc_space = NonCommutativeSpacetimeTopology.compute_non_commutative_manifold(payload_hash_key)
-        v41_continuum = QuantumSingularityContinuumCore.unify_singularity_continuum(payload_hash_key)
         transfinite_resonance = OmniversalTransfiniteHyperResonance.compute_transfinite_resonance(payload_hash_key)
         absolute_horizon = AbsoluteSingularityHorizonCore.enforce_absolute_horizon(payload_hash_key)
         singularity_lattice = OmniversalSingularityLatticeCore.compute_singularity_lattice(payload_hash_key)
@@ -675,7 +653,7 @@ class ThreatOrchestrator:
 
         
         # =========================================================================
-        # FRONTIER ARCHITECTURE (v72 — 6 Planes, 10 Architectural + 5 Research Pillars)
+        # FRONTIER ARCHITECTURE (v72 â€” 6 Planes, 10 Architectural + 5 Research Pillars)
         # =========================================================================
         base_result["frontier_architecture_v72"] = FrontierArchitectureNexus.execute_frontier_pipeline(
             text=text,
@@ -704,7 +682,7 @@ class ThreatOrchestrator:
 
         
         # =========================================================================
-        # APOGEE ARCHITECTURE PACK — DIGITAL INTELLIGENCE & INTERCEPTION (v6.0)
+        # APOGEE ARCHITECTURE PACK â€” DIGITAL INTELLIGENCE & INTERCEPTION (v6.0)
         # =========================================================================
         base_result["apogee_architecture_v6"] = ApogeeArchitectureMasterNexusV6.run_apogee_pipeline(
             text=text,
@@ -715,7 +693,7 @@ class ThreatOrchestrator:
 
         
         # =========================================================================
-        # GODTIER INITIATIVE — 5 FLAGSHIP RESEARCH PROJECTS (v7.0)
+        # GODTIER INITIATIVE â€” 5 FLAGSHIP RESEARCH PROJECTS (v7.0)
         # =========================================================================
         base_result["godtier_initiative_v7"] = GodtierInitiativeMasterNexusV7.run_godtier_pipeline(
             text=text,
@@ -727,7 +705,7 @@ class ThreatOrchestrator:
 
         
         # =========================================================================
-        # APOCALYPSE FRONTIER — PHASE 1: AEGIS & ORIGIN (v9.0)
+        # APOCALYPSE FRONTIER â€” PHASE 1: AEGIS & ORIGIN (v9.0)
         # =========================================================================
         base_result["apocalypse_phase1_v9"] = ApocalypsePhase1MasterNexus.run_apocalypse_phase_1_pipeline(
             text=text,
@@ -738,3 +716,8 @@ class ThreatOrchestrator:
 
         ThreatMemoryCache.set(text, base_result)
         return base_result
+
+
+
+from app.apex_singularity_v40.v40_engine import HolographicAdSCFTEntanglementMatrix, QuantumGravityZetaSynchronizer
+
