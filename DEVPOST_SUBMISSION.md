@@ -1,47 +1,68 @@
-# PhishGuard AI: Mathematical & Hybrid Agentic Threat Detection
+# PhishGuard AI: Explainable Phishing Detection with a Trained Domain Model
 
 ## Inspiration
-Modern phishing campaigns bypass traditional blocklists within minutes by using algorithmically generated domains (DGA), homoglyph typosquatting (e.g., `paypa1-secure.xyz`), and context-aware social engineering. Relying solely on Large Language Models (LLMs) introduces latency and availability risks, while purely rule-based systems fail against semantic manipulation. We built **PhishGuard AI** to bridge **Mathematical Systems Security** (Information Theory, Metric Space String Distance, and Calibrated Risk Modeling) with **Multi-Modal Generative AI**.
+Phishing campaigns get around blocklists within minutes by using algorithmically generated domains (DGA), look-alike domains such as `paypa1-secure.xyz`, and social-engineering text. Relying only on an LLM adds latency and availability risk, and purely rule-based systems miss new domains. We built **PhishGuard AI** to combine three layers that cover each other's weaknesses: transparent mathematical rules, a **trained machine-learning domain classifier**, and multi-modal generative AI.
 
 ## What it does
-PhishGuard AI is an explainable cybersecurity defense platform that analyzes **raw text messages/SMS**, **screenshots (vision)**, and **raw `.eml` email files** without executing attachments or visiting malicious links:
-1. **Information-Theoretic URL Telemetry:** Computes Shannon Entropy $H(X)$ across URLs and hostnames to detect cryptographic obfuscation and DGA domains.
-2. **Metric Space Brand Protection:** Uses homoglyph normalization $\phi(t)$ combined with Levenshtein Edit Distance $d_L$ and normalized string similarity $S_L$ to catch lookalike domains.
-3. **Forensic `.eml` & Attachment Inspection:** Parses MIME structures to uncover `From` vs. `Reply-To` domain mismatches, display-name spoofing, double extensions (`.pdf.exe`), and macro-enabled payloads.
-4. **Calibrated Mathematical Risk Engine:** Aggregates probabilistic AI confidence with deterministic and mathematical signals using set-theoretic deduplication so no threat category is double-counted.
-5. **Resilient Multi-Model & Heuristic Fallback:** Implements exponential backoff ($2^k$ seconds) across fallback LLM chains and seamlessly switches to our deterministic mathematical engine during API outages.
+PhishGuard AI analyzes **text messages**, **screenshots**, and **raw `.eml` emails** without executing attachments or visiting links, and returns a 0-100 risk score in which every point is itemized.
 
-## Mathematical Foundations in Systems Security
+1. **Trained domain classifier (new):** a logistic-regression model on character n-grams and domain features, evaluated on domains it never saw during training (results below). Exposed as `POST /api/v1/detect` with a small web UI.
+2. **Information-theoretic URL telemetry:** Shannon entropy of URLs and hostnames to flag obfuscated or DGA-style hosts.
+3. **Homoglyph-aware brand protection:** Levenshtein distance after homoglyph normalization to catch look-alike domains.
+4. **Forensic `.eml` inspection:** `From` vs `Reply-To` mismatches, display-name spoofing, double extensions (`.pdf.exe`), macro-enabled attachments.
+5. **Transparent risk engine:** combines AI confidence with deterministic signals using set-based de-duplication, so one threat is never counted twice. Every contribution is listed by signal, source and points.
+6. **Graceful degradation:** if the LLM is rate-limited or unavailable, the system falls back to the deterministic rule engine and the trained model (with lower accuracy than the full pipeline).
 
-### 1. Shannon Information Entropy $H(X)$
-For any extracted URL or hostname string $X$ of length $|X|$ over character alphabet $\Sigma$, we compute the empirical Shannon entropy in bits per character:
+## Measured results of the trained model
+All numbers come from `backend/scripts/train.py` and are reproducible from public data.
+
+- **Data:** 20,000 registered domains (10,000 phishing from the Phishing.Database feed, 10,000 legitimate from OpenDNS top and random domain lists).
+- **Evaluation:** train / validation / test split grouped by domain; the 4,000 test domains never appear in training. Thresholds were chosen on validation data only.
+
+| Verdict used by the API | Precision | Recall | False-positive rate |
+|---|---|---|---|
+| `PHISHING` (tuned for false positives of at most 5%) | 91.8% | 56.5% | 4.9% |
+| `SUSPICIOUS` or worse (best F1) | 74.8% | 78.4% | 25.4% |
+
+For comparison, a hand-written rule baseline on the same test set catches only 20.3% of phishing domains (F1 33.1% vs 76.6% for the trained model).
+
+**Limitations, stated plainly:** the model judges the registered domain name only (not page content, path or domain age); it cannot judge individual sites hosted on shared platforms such as `github.io` or `netlify.app` (the API returns `NOT_SCORED`); and real traffic contains more kinds of legitimate sites than our data, so real-world false positives are likely higher than shown. We did not benchmark the LLM component.
+
+## Mathematical foundations
+
+### 1. Shannon information entropy
+For a URL or hostname string $X$ over alphabet $\Sigma$:
 $$H(X) = -\sum_{x_i \in \Sigma} P(x_i) \log_2 P(x_i), \quad P(x_i) = \frac{\text{count}(x_i)}{|X|}$$
-When $H(\text{URL}) \ge 4.35$ or $H(\text{Hostname}) \ge 3.85$, the engine flags high-entropy lexical obfuscation.
+When $H(\text{URL}) \ge 4.35$ or $H(\text{Hostname}) \ge 3.85$, the engine flags lexical obfuscation.
 
-### 2. Homoglyph-Normalized Levenshtein Similarity $S_L(t, b)$
-Given a domain lexical token $t$ and a protected brand $b$, we apply a homoglyph de-obfuscation morphism $\phi$ (mapping visually deceptive numerals/symbols to canonical ASCII characters) and compute the normalized Levenshtein metric:
+### 2. Homoglyph-normalized Levenshtein similarity
+For a domain token $t$, a protected brand $b$ and a homoglyph normalization map $\phi$:
 $$S_L(t, b) = 1 - \frac{\min(d_L(t, b), d_L(\phi(t), b))}{\max(|t|, |b|)}$$
-A domain is flagged for mathematical typosquatting when $0 < d_L \le 2$ and $S_L(t, b) \ge 0.72$.
+A domain is flagged as a look-alike when $0 < d_L \le 2$ and $S_L(t, b) \ge 0.72$.
 
-### 3. Set-Deduplicated Threat Scoring Model
-To produce a bounded, explainable score $R_{\text{final}} \in [0, 100]$, we define disjoint threat sets $\mathcal{T}$ (AI-classified threats) and $\mathcal{D}$ (deterministic forensic flags):
+### 3. Set-deduplicated, itemized scoring
+With disjoint sets of AI-classified threats $\mathcal{T}$ and deterministic flags $\mathcal{D}$:
 $$R_{\text{raw}} = 12 C_{\text{AI}} + 22 \mathbb{I}_{\text{phish}} + \sum_{k \in \mathcal{T}} w_k + \sum_{m \in \mathcal{D} \setminus \mathcal{T}} d_m + \min(0.25 U_{\max}, 20) + \Delta_{\text{math}}$$
 $$R_{\text{final}} = \min(100, \max(0, \text{round}(R_{\text{raw}})))$$
+The weights are set by hand and explained in the output; they are not fitted probabilities. The trained domain model feeds the URL term $U_{\max}$: a `PHISHING` verdict raises the URL score to at least the model score, a `SUSPICIOUS` verdict adds 10 points, and the model never lowers a score.
 
 ## How we built it
-- **Backend:** Python, FastAPI, Pydantic, deterministic `.eml` MIME parser, and custom mathematical security modules (`risk_engine.py`, `url_checker.py`, `brand_detector.py`).
-- **AI & Resilience Layer:** Google Gemini (`google-genai` SDK) for text and vision threat analysis, protected by a sliding-window IP rate limiter and an offline deterministic fallback engine.
-- **Frontend:** Next.js, TypeScript, and Tailwind CSS providing an interactive security breakdown dashboard.
+- **Backend:** Python, FastAPI, Pydantic, a deterministic `.eml` MIME parser, scikit-learn for the domain model.
+- **AI layer:** Google Gemini (`google-genai`) for text and vision analysis, with a sliding-window rate limiter and a deterministic fallback.
+- **Frontend:** Next.js, TypeScript, Tailwind CSS.
+- **Quality:** 38 automated tests for the detector (feature extraction, API, training, integration) and a GitHub Actions CI pipeline.
 
 ## Challenges we ran into
-- **Preventing Score Inflation (Double-Counting):** When both the LLM and the deterministic parser flagged attachment abuse or brand spoofing, naive additive scoring inflated low-risk alerts. We solved this using canonical threat mapping and set difference $\mathcal{D} \setminus \mathcal{T}$ in `risk_engine.py`.
-- **Catching Obfuscated Lookalike Domains:** Simple substring checks missed `paypa1` or `micr0soft`. Combining a homoglyph translation matrix with dynamic-programming Levenshtein distance solved this with zero external network calls.
+- **A data shortcut that fooled our own evaluation.** Our first model scored 93% F1, but it flagged `en.wikipedia.org` as phishing. The cause: legitimate training domains almost never have subdomains (0.1%) while phishing hosts often do (68%), so the model had learned "has a subdomain means phishing". We fixed it by scoring the registered domain only, removing shared-hosting platforms from the training data, and adding everyday (non-famous) legitimate domains. Honest accuracy dropped to the numbers above, and we report those.
+- **Score inflation.** When both the LLM and the parser flagged the same threat, naive addition inflated low-risk alerts. Canonical threat mapping and the set difference $\mathcal{D} \setminus \mathcal{T}$ fixed it.
+- **Look-alike domains.** Substring checks missed `paypa1` and `micr0soft`; homoglyph normalization plus dynamic-programming Levenshtein distance solved this with no external network calls.
 
 ## Accomplishments that we're proud of
-- Zero-trust static inspection: URLs are never fetched and attachments are never executed.
-- Complete mathematical explainability: Every single point in the 0-100 risk score is itemized by signal, source, and weight.
-- 100% uptime guarantee via automatic heuristic/mathematical fallback when LLM endpoints experience 429/503 errors.
+- Static inspection only: URLs are never fetched and attachments are never executed.
+- Every point of the risk score is itemized by signal, source and weight.
+- An evaluation we can defend: domain-grouped splits, a baseline to beat, and limitations published next to the numbers.
 
-## What's next for PhishGuard AI
-- Integrating Markov-chain transition probability matrices for n-gram domain naturalness scoring.
-- Browser extension and MCP server integration for real-time inbox protection.
+## What's next
+- Add page, path and domain-age features, and evaluate on a time-based split (train on older feeds, test on newer ones).
+- More diverse legitimate data (regional and institutional domains are over-flagged today).
+- Browser extension and MCP server for real-time inbox protection.
