@@ -91,6 +91,20 @@ def extract_urls(text: str) -> list[str]:
     return list(dict.fromkeys(cleaned))
 
 
+def _trained_model_signal(hostname: str):
+    """(verdict, score) from the trained domain model, or None when unavailable / not scorable."""
+    if not hostname:
+        return None
+    try:
+        from app.real_detector.model import analyze_url as model_analyze
+        result = model_analyze("http://" + hostname)
+    except Exception:
+        return None
+    if result.get("verdict") in (None, "NOT_SCORED") or result.get("risk_score") is None:
+        return None
+    return result["verdict"], int(round(result["risk_score"]))
+
+
 def analyze_url(url: str) -> dict:
     """
     Analyze URL characteristics without making network requests.
@@ -201,6 +215,16 @@ def analyze_url(url: str) -> dict:
     if brand_result:
         score = max(score, brand_result["risk_score"])
         reasons.append(brand_result["reason"])
+
+    model_signal = _trained_model_signal(hostname)
+    if model_signal:
+        model_verdict, model_score = model_signal
+        if model_verdict == "PHISHING":
+            score = max(score, model_score)
+            reasons.append(f"Trained domain model: high-risk domain (model score {model_score}/100).")
+        elif model_verdict == "SUSPICIOUS":
+            score += 10
+            reasons.append(f"Trained domain model: suspicious domain (model score {model_score}/100).")
 
     score = min(score, 100)
 
