@@ -7,8 +7,8 @@ from app.agents.orchestrator import ThreatOrchestrator
 from app.services.risk_engine import calculate_risk_breakdown
 from app.services.email_checker import extract_email_content
 
-MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
-FALLBACK_MODELS = ["gemini-2.5-pro", "gemini-2.0-flash"]
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
+FALLBACK_MODELS = [m.strip() for m in os.getenv("GEMINI_FALLBACK_MODELS", "gemini-3.5-flash-lite,gemini-3.8-flash").split(",") if m.strip()]
 MODEL_CHAIN = [m for m in [MODEL, *FALLBACK_MODELS]]
 
 def get_gemini_client():
