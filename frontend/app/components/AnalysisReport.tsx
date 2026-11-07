@@ -48,7 +48,7 @@ export default function AnalysisReport({ result }: { result: AnalysisResult }) {
             </p>
           </div>
           <div>
-            <p className="text-sm text-ink-2">Model confidence</p>
+            <p className="text-sm text-ink-2">Confidence</p>
             <p className="font-mono text-4xl font-bold">{confidence}%</p>
           </div>
         </div>

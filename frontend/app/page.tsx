@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import AnalysisReport from "./components/AnalysisReport";
@@ -16,7 +16,6 @@ type Result =
 const TABS: { id: Mode; label: string }[] = [
   { id: "domain", label: "Link or domain" },
   { id: "text", label: "Message" },
-  { id: "image", label: "Screenshot" },
   { id: "email", label: "Email file" },
 ];
 
@@ -159,7 +158,7 @@ export default function Home() {
             Check it before you click.
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-ink-2 sm:text-xl">
-            Paste a link, a message, a screenshot or an email. You get a verdict and every reason behind it.
+            Paste a link, a message or an email. You get a verdict and every reason behind it.
           </p>
         </section>
 
@@ -328,9 +327,9 @@ export default function Home() {
               </p>
             </div>
             <div className="md:pl-8">
-              <h3 className="text-lg font-semibold">Language model</h3>
+              <h3 className="text-lg font-semibold">Message and email analysis</h3>
               <p className="mt-2 text-ink-2">
-                Gemini reads message text and screenshots for pressure tactics and impersonation. For messages and emails, the other two still run if it is unavailable. Screenshots need it.
+                Message text and links are checked by local rules. Email headers, links and attachment names are read locally, and nothing is opened or run.
               </p>
             </div>
           </div>

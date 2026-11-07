@@ -15,3 +15,6 @@ __pycache__/
 .pytest_cache/
 venv/
 .env
+
+backend/app/storage/threat_cache.json
+backend/app/storage/immutable_audit_ledger.json
