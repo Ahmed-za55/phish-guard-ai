@@ -5,10 +5,11 @@ import AnalysisReport from "./components/AnalysisReport";
 import DomainResult from "./components/DomainResult";
 import DropZone from "./components/DropZone";
 import ModelCard from "./components/ModelCard";
+import PrivateMode from "./components/PrivateMode";
 import { analyzeFile, analyzeText, detectDomain, fetchModelHealth } from "./lib/api";
 import type { AnalysisResult, DetectHealth, DetectResult } from "./lib/types";
 
-type Mode = "domain" | "text" | "image" | "email";
+type Mode = "domain" | "text" | "email" | "private";
 type Result =
   | { kind: "domain"; data: DetectResult }
   | { kind: "report"; data: AnalysisResult };
@@ -17,6 +18,7 @@ const TABS: { id: Mode; label: string }[] = [
   { id: "domain", label: "Link or domain" },
   { id: "text", label: "Message" },
   { id: "email", label: "Email file" },
+  { id: "private", label: "Private analysis" },
 ];
 
 const DOMAIN_EXAMPLES = [
@@ -37,7 +39,6 @@ export default function Home() {
   const [domain, setDomain] = useState("");
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
 
   const [result, setResult] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
@@ -46,33 +47,22 @@ export default function Home() {
   const [health, setHealth] = useState<DetectHealth | null>(null);
   const [unreachable, setUnreachable] = useState(false);
 
-  const previewUrl = useRef<string | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchModelHealth()
       .then(setHealth)
       .catch(() => setUnreachable(true));
-    return () => {
-      if (previewUrl.current) URL.revokeObjectURL(previewUrl.current);
-    };
   }, []);
 
   useEffect(() => {
     if (result) resultRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }, [result]);
 
-  function clearFile() {
-    if (previewUrl.current) URL.revokeObjectURL(previewUrl.current);
-    previewUrl.current = null;
-    setFile(null);
-    setPreview(null);
-  }
-
   function changeMode(next: Mode) {
     if (next === mode) return;
     setMode(next);
-    clearFile();
+    setFile(null);
     setResult(null);
     setError("");
   }
@@ -86,18 +76,6 @@ export default function Home() {
     event.preventDefault();
     changeMode(TABS[next].id);
     document.getElementById(`tab-${TABS[next].id}`)?.focus();
-  }
-
-  function pickFile(picked: File) {
-    clearFile();
-    setFile(picked);
-    setError("");
-    setResult(null);
-    if (picked.type.startsWith("image/")) {
-      const url = URL.createObjectURL(picked);
-      previewUrl.current = url;
-      setPreview(url);
-    }
   }
 
   async function run(task: () => Promise<Result>) {
@@ -127,8 +105,8 @@ export default function Home() {
   function analyzeCurrent() {
     if (mode === "text" && text.trim()) {
       run(async () => ({ kind: "report", data: await analyzeText(text.trim()) }));
-    } else if ((mode === "image" || mode === "email") && file) {
-      run(async () => ({ kind: "report", data: await analyzeFile(mode, file) }));
+    } else if (mode === "email" && file) {
+      run(async () => ({ kind: "report", data: await analyzeFile("email", file) }));
     }
   }
 
@@ -158,7 +136,8 @@ export default function Home() {
             Check it before you click.
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-ink-2 sm:text-xl">
-            Paste a link, a message or an email. You get a verdict and every reason behind it.
+            Paste a link, a message or an email. You get a verdict and every reason behind it. In private mode, your
+            personal details never reach the AI.
           </p>
         </section>
 
@@ -267,46 +246,48 @@ export default function Home() {
               </div>
             )}
 
-            {(mode === "image" || mode === "email") && (
+            {mode === "email" && (
               <div>
-                <h2 className="text-lg font-semibold">
-                  {mode === "image" ? "Upload a screenshot" : "Upload an email file"}
-                </h2>
+                <h2 className="text-lg font-semibold">Upload an email file</h2>
                 <p className="mb-4 mt-1 text-ink-2">
-                  {mode === "image"
-                    ? "A vision model reads the screenshot, and any links in it are checked."
-                    : "The headers, links and attachment names are checked. Nothing is opened or run."}
+                  The headers, links and attachment names are checked. Nothing is opened or run.
                 </p>
                 <DropZone
-                  key={mode}
-                  kind={mode}
+                  kind="email"
                   file={file}
-                  preview={preview}
-                  onFile={pickFile}
+                  onFile={(picked) => {
+                    setFile(picked);
+                    setError("");
+                    setResult(null);
+                  }}
                   onInvalid={setError}
                   onRemove={() => {
-                    clearFile();
+                    setFile(null);
                     setResult(null);
                   }}
                 />
                 <button type="button" onClick={analyzeCurrent} disabled={loading || !canAnalyze} className={`mt-4 ${primaryButton}`}>
-                  {loading ? "Analyzing..." : mode === "image" ? "Analyze screenshot" : "Analyze email"}
+                  {loading ? "Analyzing..." : "Analyze email"}
                 </button>
               </div>
             )}
+
+            {mode === "private" && <PrivateMode />}
           </div>
         </section>
 
-        {/* Results */}
-        <div ref={resultRef} aria-live="polite" className="mt-8 scroll-mt-6">
-          {error && (
-            <div role="alert" className="rounded-lg border border-danger/30 bg-danger-soft p-5 text-danger">
-              {error}
-            </div>
-          )}
-          {result?.kind === "domain" && <DomainResult result={result.data} />}
-          {result?.kind === "report" && <AnalysisReport result={result.data} />}
-        </div>
+        {/* Results (private mode shows its own) */}
+        {mode !== "private" && (
+          <div ref={resultRef} aria-live="polite" className="mt-8 scroll-mt-6">
+            {error && (
+              <div role="alert" className="rounded-lg border border-danger/30 bg-danger-soft p-5 text-danger">
+                {error}
+              </div>
+            )}
+            {result?.kind === "domain" && <DomainResult result={result.data} />}
+            {result?.kind === "report" && <AnalysisReport result={result.data} />}
+          </div>
+        )}
 
         {/* How a verdict is built */}
         <section className="mt-20" aria-labelledby="built-heading">
@@ -327,9 +308,9 @@ export default function Home() {
               </p>
             </div>
             <div className="md:pl-8">
-              <h3 className="text-lg font-semibold">Message and email analysis</h3>
+              <h3 className="text-lg font-semibold">Private analysis with Gemini</h3>
               <p className="mt-2 text-ink-2">
-                Message text and links are checked by local rules. Email headers, links and attachment names are read locally, and nothing is opened or run.
+                Sensitive details are swapped for tokens before the text goes to Gemini. They are sealed with AES-256-GCM, and the key is split so that any two of three holders can open it.
               </p>
             </div>
           </div>
@@ -341,10 +322,9 @@ export default function Home() {
       </main>
 
       <footer className="mx-auto w-full max-w-5xl px-5 pb-10 text-sm text-ink-2">
-        Built for the AI Builders Hackathon 2026. A low score does not guarantee a message is safe. Never share passwords or
-        verification codes with anyone you don&apos;t trust.
+        A low score does not guarantee a message is safe. Never share passwords or verification codes with anyone you
+        don&apos;t trust.
       </footer>
     </>
   );
 }
-

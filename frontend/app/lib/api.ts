@@ -1,4 +1,11 @@
-import type { AnalysisResult, DetectHealth, DetectResult } from "./types";
+import type {
+  AnalysisResult,
+  DetectHealth,
+  DetectResult,
+  PrivateResult,
+  PrivateRestore,
+  SelfTest,
+} from "./types";
 
 // Existing setting, unchanged: NEXT_PUBLIC_API_URL, or the /api/backend proxy path.
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api/backend";
@@ -72,4 +79,24 @@ export function analyzeFile(kind: "image" | "email", file: File): Promise<Analys
     method: "POST",
     body: formData,
   });
+}
+
+export function analyzePrivately(text: string, protectedTerms: string[]): Promise<PrivateResult> {
+  return request<PrivateResult>(`${ORIGIN}/api/v1/private/analyze`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text, protected_terms: protectedTerms }),
+  });
+}
+
+export function restorePrivate(requestId: string, shares: string[]): Promise<PrivateRestore> {
+  return request<PrivateRestore>(`${ORIGIN}/api/v1/private/restore`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ request_id: requestId, shares }),
+  });
+}
+
+export function runSelfTest(): Promise<SelfTest> {
+  return request<SelfTest>(`${ORIGIN}/api/v1/private/selftest`);
 }

@@ -15,7 +15,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Phish Guard AI",
   description:
-    "Check a link, message or email for phishing. Every verdict comes with the reasons behind it.",
+    "Check a link, message or email for phishing. Every verdict comes with the reasons behind it, and private mode keeps your details away from the AI provider.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -224,3 +224,7 @@ app.include_router(nextgen_quad_router)
 # --- real URL detector (trained model) ---
 from app.real_detector.router import router as real_detector_router
 app.include_router(real_detector_router)
+
+# --- private analysis (tokenization + AES-256-GCM vault + Shamir key custody) ---
+from app.privacy_gateway.router import router as private_analysis_router
+app.include_router(private_analysis_router)

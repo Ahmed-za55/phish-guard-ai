@@ -90,3 +90,59 @@ export type DetectHealth = {
   model?: ModelInfo;
   detail?: string;
 };
+
+/* ---- Private analysis (POST /api/v1/private/analyze) ---- */
+
+export type PrivateSpan = { start: number; end: number; type: string; token: string };
+
+export type PrivateAnalysis = {
+  verdict: Verdict;
+  risk_score: number;
+  reasons: string[];
+  recommendations: string[];
+  violations: string[];
+};
+
+export type PrivateResult = {
+  request_id: string;
+  expires_in: number;
+  provider: { name: string; model: string | null; status: string; detail: string | null };
+  detection: { count: number; by_type: Record<string, number>; spans: PrivateSpan[] };
+  sanitized_text: string;
+  outbound: {
+    fields: string[];
+    bytes: number;
+    sha256: string;
+    forbidden_strings_checked: number;
+    leak_check: string;
+  };
+  vault: { cipher: string; nonce_bits: number; kid: string; ciphertext_bytes: number; bound_to: string };
+  custody: {
+    scheme: string;
+    threshold: number;
+    total: number;
+    kid: string;
+    shares: { holder: string; share: string }[];
+    note: string;
+  };
+  analysis: PrivateAnalysis | null;
+  local: {
+    status: string;
+    risk_score: number;
+    urls: { url: string; host: string; scored_domain: string; verdict: string; risk_score: number | null }[];
+  };
+  overall: { risk_score: number; source: string; level: "LOW" | "MEDIUM" | "HIGH" };
+};
+
+export type PrivateRestore = {
+  restored: boolean;
+  values_restored: number;
+  reasons: string[];
+  recommendations: string[];
+};
+
+export type SelfTest = {
+  passed: number;
+  total: number;
+  checks: { name: string; passed: boolean; detail: string }[];
+};

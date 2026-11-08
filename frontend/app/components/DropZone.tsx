@@ -5,7 +5,7 @@ import { DragEvent } from "react";
 type Props = {
   kind: "image" | "email";
   file: File | null;
-  preview: string | null;
+  preview?: string | null;
   onFile: (file: File) => void;
   onInvalid: (message: string) => void;
   onRemove: () => void;
