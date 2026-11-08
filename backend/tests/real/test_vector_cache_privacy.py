@@ -51,7 +51,7 @@ def test_cache_redacts_sensitive_values_and_preserves_detection_fields(monkeypat
     serialized_cache = cache_path.read_text(encoding="utf-8")
     for sensitive_value in (sentinel, email, phone, url, text[:60]):
         assert sensitive_value not in serialized_cache
-    assert '"_cache_privacy_schema": 3' in serialized_cache
+    assert '"_cache_privacy_schema": 4' in serialized_cache
 
     cached = ThreatMemoryCache.get(text)
     assert cached is not None
