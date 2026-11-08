@@ -3,6 +3,7 @@ from app.godtier_v7.godtier_master import GodtierInitiativeMasterNexusV7
 from app.apogee_v6.apogee_master import ApogeeArchitectureMasterNexusV6
 from app.apocalypse_v2_0.apocalypse_master import ApocalypseTierMasterNexusV2
 from app.frontier_v72.frontier_nexus import FrontierArchitectureNexus
+from app.frontier_v72.detection_intelligence import FrontierDetectionIntelligence
 from app.aegis_control_plane.signal_graph import CrossSignalGraphEngine
 from app.aegis_control_plane.evidence_engine import EvidenceDecisionEngine
 from app.aegis_control_plane.digital_twin import CybersecurityDigitalTwin
@@ -165,6 +166,45 @@ from app.omni_gateway.omni_gate_engine import OmniversalSynchronizedGateway
 from app.cosmic_barrier.cosmic_barrier_engine import AbsoluteCosmicVacuumBarrier
 from app.local_agent.agent_runner import LocalAutonomousAgentRunner
 
+
+def _restore_cached_input_dependent_fields(cached_result: Dict[str, Any], text: str) -> Dict[str, Any]:
+    """Rebuild fields omitted from disk cache using the current request in memory."""
+    if isinstance(cached_result.get("local_llm_consult"), dict):
+        cached_result["local_llm_consult"] = SovereignLocalLLMAssistant.consult_assistant(text)
+
+    if "ast_payload_deobfuscation" in cached_result:
+        cached_result["ast_payload_deobfuscation"] = ASTPayloadDeobfuscator.deobfuscate_and_inspect(text)
+
+    privacy_result = (
+        cached_result.get("frontier_architecture_v72", {})
+        .get("2_detection_intelligence", {})
+        .get("privacy_preserving_inference")
+    )
+    if isinstance(privacy_result, dict):
+        privacy_result.update(FrontierDetectionIntelligence.sanitize_privacy_preserving_input(text))
+
+    urls = extract_urls(text)
+    url_results = [analyze_url(url) for url in urls]
+    cached_result["apocalypse_tier_v2_0"] = ApocalypseTierMasterNexusV2.run_apocalypse_enterprise_pipeline(
+        text=text,
+        extracted_urls=urls,
+        url_results=url_results,
+        tenant_id="enterprise_client_001",
+    )
+
+    return cached_result
+
+
+def _get_cache_entry(text: str, security_flags: List[str]):
+    """Avoid cache reads when auxiliary, potentially sensitive flags are present."""
+    return ThreatMemoryCache.get(text) if not security_flags else None
+
+
+def _store_cache_entry(text: str, result: Dict[str, Any], security_flags: List[str]) -> None:
+    """Avoid persisting analyses whose auxiliary flags are not part of the cache key."""
+    if not security_flags:
+        ThreatMemoryCache.set(text, result)
+
 class ThreatOrchestrator:
     """
     The Ultimate Sovereign Apex Organism (v70 â€” Absolute Transcendence):
@@ -174,10 +214,12 @@ class ThreatOrchestrator:
     async def analyze_concurrent(text: str, security_flags: List[str] = None) -> Dict[str, Any]:
         security_flags = security_flags or []
         
-        cached_result = ThreatMemoryCache.get(text)
+        # Email security flags can contain attachment names or other input-derived
+        # values not present in `text`; keep those analyses out of this cache.
+        cached_result = _get_cache_entry(text, security_flags)
         if cached_result:
+            cached_result = _restore_cached_input_dependent_fields(cached_result, text)
             cached_result["cached_hit"] = True
-            cached_result["architecture_grade"] = "Apex-Sovereign-100Cores-v70-AbsoluteTranscendence"
             return cached_result
 
         ast_inspection = ASTPayloadDeobfuscator.deobfuscate_and_inspect(text)
@@ -714,7 +756,7 @@ class ThreatOrchestrator:
         )
         base_result["architecture_grade"] = "Apex-Sovereign-Apocalypse-Phase1-SecureRuntime"
 
-        ThreatMemoryCache.set(text, base_result)
+        _store_cache_entry(text, base_result, security_flags)
         return base_result
 
 
