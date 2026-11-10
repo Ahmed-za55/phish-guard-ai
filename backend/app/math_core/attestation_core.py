@@ -1,24 +1,16 @@
 import hmac
 import hashlib
 import json
-import time
-from typing import Dict, Any
+
+SECRET_KEY = b"phish-guard-sovereign-attestation-key-2026"
 
 class CryptographicAttestationCore:
-    """
-    Zero-Knowledge Cryptographic Attestation Core: Generates HMAC-SHA256 tamper-proof 
-    cryptographic warrants for every threat analysis report, ensuring enterprise-grade 
-    non-repudiation and forensic integrity.
-    """
-    SECRET_KEY = b"phishguard_secure_military_kernel_key_2026"
-
-    @classmethod
-    def sign_report(cls, report_data: Dict[str, Any]) -> str:
-        payload = json.dumps(report_data, sort_keys=True).encode("utf-8")
-        signature = hmac.new(cls.SECRET_KEY, payload, hashlib.sha256).hexdigest()
-        return signature
-
     @staticmethod
-    def mutate_adversarial_vector(url: str) -> str:
-        # Simulate adversarial perturbations (homoglyphs & dynamic encoding mutation)
-        return url.replace("o", "0").replace("i", "1").replace("a", "@")
+    def sign_report(report_data: dict) -> str:
+        # استبعاد الحقول المتداخلة أو التي قد تحتوي على مراجع دائرية لتجنب ValueError
+        clean_data = {
+            k: v for k, v in report_data.items() 
+            if k not in ('warrant_payload', 'blockchain_audit_block', 'warrant_signature')
+        }
+        payload = json.dumps(clean_data, sort_keys=True, default=str).encode("utf-8")
+        return hmac.new(SECRET_KEY, payload, hashlib.sha256).hexdigest()

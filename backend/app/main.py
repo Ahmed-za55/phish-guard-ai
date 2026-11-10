@@ -148,7 +148,7 @@ async def analyze_email_endpoint(request: Request, file: UploadFile = File(...))
         if len(email_bytes) > MAX_EMAIL_SIZE:
             raise safe_error("Email file is too large.", 413)
 
-        return analyze_email(email_bytes)
+        return await analyze_email(email_bytes)
     except HTTPException:
         raise
     except Exception:

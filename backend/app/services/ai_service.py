@@ -57,14 +57,12 @@ def analyze_image(image_bytes: bytes, mime_type: str) -> dict:
     res = loop.run_until_complete(ThreatOrchestrator.analyze_concurrent(extracted_text))
     return build_architectural_result(res, extracted_text)
 
-def analyze_email(email_bytes: bytes) -> dict:
+async def analyze_email(email_bytes: bytes) -> dict:
     email_data = extract_email_content(email_bytes)
     security_flags = email_data.get("security_flags", [])
     full_text = f"{email_data['subject']} {email_data['body']}"
     
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    res = loop.run_until_complete(ThreatOrchestrator.analyze_concurrent(full_text, security_flags))
+    res = await ThreatOrchestrator.analyze_concurrent(full_text, security_flags)
     
     email_details = {
         "sender_name": email_data["sender_name"],
