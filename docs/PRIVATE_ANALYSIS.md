@@ -3,23 +3,23 @@
 **Track: AI pipeline secret sharing**
 
 ## The problem
-A suspicious email or SMS usually contains the victim's own details: name, email, phone number, a card number, a one-time code, sometimes a password. To get an AI opinion on it, people paste all of that into a hosted LLM, and the provider may log or store it. We built a gateway that lets an LLM analyze the message while the sensitive values never leave our side.
+A suspicious email or SMS usually contains the victim's own details: name, email, phone number, a card number, a one-time code, sometimes a password. To get an AI opinion on it, people paste all of that into a hosted LLM, and the provider may log or store it. We built a gateway that lets an LLM analyze the message while detected sensitive values and URLs never leave our side.
 
 ## What it does
 You paste a message. Before anything reaches Gemini:
 
-1. **Detect.** Emails, phone numbers, card numbers (Luhn-checked), IBANs (mod-97 checked), national IDs, SSNs, API keys, passwords, one-time codes, and any words you mark as protected.
-2. **Tokenize.** Each value becomes a random token such as `[[EMAIL_1_k3f9]]`. Every occurrence is replaced in a single pass, so a value cannot survive inside a URL or a second mention.
+1. **Detect.** Full URLs (including credentials, paths, query strings, and fragments), emails, phone numbers, card numbers (Luhn-checked), IBANs (mod-97 checked), national IDs, SSNs, API keys, passwords, one-time codes, and any words you mark as protected.
+2. **Tokenize.** Each value becomes a random token such as `[[EMAIL_1_k3f9]]`. Every occurrence is replaced in a single pass, so detected values and full URLs are tokenized everywhere they appear.
 3. **Seal.** The token-to-value map is encrypted with AES-256-GCM under a fresh random key, generated for this request only.
 4. **Split.** That key is split with Shamir secret sharing into 3 shares, any 2 of which rebuild it. The server does not store the key, only the sealed vault.
-5. **Check, then send.** The outgoing text is scanned for every original value and every share. If anything is found, the request is blocked and the provider is never called (fail closed). Otherwise Gemini receives only fixed instructions plus the tokenized text.
+5. **Check, then send.** The outgoing text is scanned for every detected original value, raw key, and share. If anything is found, the request is blocked and the provider is never called (fail closed). Otherwise Gemini receives only fixed instructions plus the tokenized text.
 6. **Validate the answer.** Gemini's reply is untrusted: strict schema, bounded sizes, unknown tokens removed, and any email or number the model invents is redacted.
 7. **Unlock locally.** Original values are put back only when two valid shares open the vault, on our server, for tokens this request issued. One share is refused. After 5 failed attempts the vault is destroyed.
 
 The interface shows the original text next to exactly what the provider received, three key-holder cards to unlock with, and a button that runs 10 security checks live.
 
 ## Evidence of using a host-provided LLM
-The gateway calls the **Gemini API** through the `google-genai` SDK (model chain `gemini-3.6-flash`, then `gemini-3.5-flash-lite`, then `gemini-3.8-flash`, configurable). The API key exists only inside the provider adapter. The adapter receives a payload object with two fields, the instructions and the tokenized text, so no key, share, mapping or original value is reachable from it. The interface states which provider answered; without a key it says plainly that it is in demo mode.
+The gateway calls the **Gemini API** through the `google-genai` SDK (model chain `gemini-3.6-flash`, then `gemini-3.5-flash-lite`, then `gemini-3.8-flash`, configurable). The API key exists only inside the provider adapter. The adapter receives a payload object with two fields, the instructions and the tokenized text, so no key, share, mapping or detected original value is reachable from it. The interface states which provider answered; without a key it says plainly that it is in demo mode.
 
 ## The mathematics
 
@@ -53,7 +53,7 @@ Tokens are a type label, a counter and a 4-character random suffix drawn per req
 | Browser (demo mode) | The original text, the tokens, and all three shares so the demo can show custody |
 
 ## How we tested it
-- **68 automated tests** for the gateway, including a fuzz test of 300 random mixtures of sensitive values that checks no detected value survives in the outgoing text, a spy provider that records everything it receives, tampering and wrong-key tests, mixed-share tests, malicious provider output, and provider outage.
+- **75 automated privacy tests (125 total across the backend suite)** for the gateway, including a fuzz test of 300 random mixtures of sensitive values that checks no detected value survives in the outgoing text, a spy provider that records everything it receives, tampering and wrong-key tests, mixed-share tests, malicious provider output, and provider outage.
 - **10 live checks** in the interface (`GET /api/v1/private/selftest`): no sensitive value or share reaches the provider; two shares restore; one share is refused; any two of three work; tampered or moved vaults are rejected; mixed shares are rejected; untrusted output is cleaned; the gateway blocks a leaking payload; and an outage still returns local results.
 - Provider output is validated against a strict schema before it is shown.
 

@@ -121,7 +121,7 @@ class GeminiProvider:
         except ImportError as exc:  # pragma: no cover - depends on the environment
             raise ProviderUnavailable("google-genai is not installed.") from exc
 
-        client = genai.Client(api_key=api_key, http_options={"api_version": "v1"})
+        client = genai.Client(api_key=api_key)
         last_error: Optional[Exception] = None
         for model in self.models:
             for attempt in range(2):
@@ -129,7 +129,7 @@ class GeminiProvider:
                     response = client.models.generate_content(
                         model=model,
                         contents=payload.as_text(),
-                        config=types.GenerateContentConfig(temperature=0.0),
+                        config=types.GenerateContentConfig(temperature=0.0, automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)),
                     )
                     self.model = model
                     return response.text or ""

@@ -124,8 +124,8 @@ export default function PrivateMode() {
               <h3 className="text-xl font-semibold">What left this server</h3>
               <p className="mt-1 max-w-2xl text-ink-2">
                 {result.provider.name === "gemini"
-                  ? `Gemini${result.provider.model ? ` (${result.provider.model})` : ""} received only the right-hand text.`
-                  : "A provider would receive only the right-hand text."}
+                  ? `Gemini${result.provider.model ? ` (${result.provider.model})` : ""} received only fixed instructions and the right-hand tokenized text.`
+                  : "A provider would receive only fixed instructions and the right-hand tokenized text."}
               </p>
               <div className="mt-5 grid gap-4 lg:grid-cols-2">
                 <div>

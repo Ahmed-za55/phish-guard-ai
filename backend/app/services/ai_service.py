@@ -1,8 +1,12 @@
 import os
 import json
 import time
-from google import genai
-from google.genai import types
+try:
+    from google import genai
+    from google.genai import types
+except ImportError:
+    genai = None
+    types = None
 from app.agents.orchestrator import ThreatOrchestrator
 from app.services.risk_engine import calculate_risk_breakdown
 from app.services.email_checker import extract_email_content

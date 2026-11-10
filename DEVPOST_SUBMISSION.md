@@ -1,7 +1,7 @@
 # PhishGuard AI: Explainable Phishing Detection with a Trained Domain Model
 
 ## Inspiration
-Phishing campaigns get around blocklists within minutes by using algorithmically generated domains (DGA), look-alike domains such as `paypa1-secure.xyz`, and social-engineering text. Relying only on an LLM adds latency and availability risk, and purely rule-based systems miss new domains. We built **PhishGuard AI** to combine three layers that cover each other's weaknesses: transparent mathematical rules, a **trained machine-learning domain classifier**, and multi-modal generative AI.
+Phishing campaigns get around blocklists within minutes by using algorithmically generated domains (DGA), look-alike domains such as `paypa1-secure.xyz`, and social-engineering text. Relying only on an LLM adds latency and availability risk, and purely rule-based systems miss new domains. We built **PhishGuard AI** to combine three layers that cover each other's weaknesses: transparent mathematical rules, a **trained machine-learning domain classifier**, and a **privacy-preserving Gemini AI gateway** with AES-256-GCM vaulting and Shamir 2-of-3 secret sharing.
 
 ## What it does
 PhishGuard AI analyzes **text messages**, **screenshots**, and **raw `.eml` emails** without executing attachments or visiting links, and returns a 0-100 risk score in which every point is itemized.
@@ -11,7 +11,7 @@ PhishGuard AI analyzes **text messages**, **screenshots**, and **raw `.eml` emai
 3. **Homoglyph-aware brand protection:** Levenshtein distance after homoglyph normalization to catch look-alike domains.
 4. **Forensic `.eml` inspection:** `From` vs `Reply-To` mismatches, display-name spoofing, double extensions (`.pdf.exe`), macro-enabled attachments.
 5. **Transparent risk engine:** combines AI confidence with deterministic signals using set-based de-duplication, so one threat is never counted twice. Every contribution is listed by signal, source and points.
-6. **Graceful degradation:** if the LLM is rate-limited or unavailable, the system falls back to the deterministic rule engine and the trained model (with lower accuracy than the full pipeline).
+6. **Graceful degradation:** in private mode (/api/v1/private/analyze), if Gemini is rate-limited or unavailable, the gateway still returns the local trained domain classifier verdict; legacy routes use deterministic lexical and .eml analysis.
 
 ## Measured results of the trained model
 All numbers come from `backend/scripts/train.py` and are reproducible from public data.
@@ -50,7 +50,7 @@ The weights are set by hand and explained in the output; they are not fitted pro
 - **Backend:** Python, FastAPI, Pydantic, a deterministic `.eml` MIME parser, scikit-learn for the domain model.
 - **AI layer:** Google Gemini (`google-genai`) for text and vision analysis, with a sliding-window rate limiter and a deterministic fallback.
 - **Frontend:** Next.js, TypeScript, Tailwind CSS.
-- **Quality:** 38 automated tests for the detector (feature extraction, API, training, integration) and a GitHub Actions CI pipeline.
+- **Quality:** 125 automated tests (75 for the privacy gateway & cryptography, 50 for the trained detector & API integration) and a GitHub Actions CI pipeline.
 
 ## Challenges we ran into
 - **A data shortcut that fooled our own evaluation.** Our first model scored 93% F1, but it flagged `en.wikipedia.org` as phishing. The cause: legitimate training domains almost never have subdomains (0.1%) while phishing hosts often do (68%), so the model had learned "has a subdomain means phishing". We fixed it by scoring the registered domain only, removing shared-hosting platforms from the training data, and adding everyday (non-famous) legitimate domains. Honest accuracy dropped to the numbers above, and we report those.

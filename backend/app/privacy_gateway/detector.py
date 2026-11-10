@@ -1,6 +1,6 @@
 """Find sensitive values in text and replace them with opaque, request-scoped tokens.
 
-Honest scope: this is pattern matching (emails, phone numbers, card numbers with a Luhn check,
+Honest scope: this is pattern matching (URLs, emails, phone numbers, card numbers with a Luhn check,
 IBANs with a mod-97 check, national IDs, SSNs, API keys / passwords / JWTs, one-time codes) plus
 words the user marks as protected (for example their own name). It cannot find every secret:
 anything it does not recognise stays in the text that is sent to the provider.
@@ -23,11 +23,14 @@ class Span:
 
 # priority: lower number wins when two matches overlap
 _PRIORITY = {
-    "SECRET": 0, "PROTECTED": 1, "CARD": 2, "IBAN": 3, "NATIONAL_ID": 4,
+    "URL": -1, "SECRET": 0, "PROTECTED": 1, "CARD": 2, "IBAN": 3, "NATIONAL_ID": 4,
     "SSN": 5, "EMAIL": 6, "CODE": 7, "PHONE": 8,
 }
 
 _EMAIL = re.compile(r"[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}")
+# Consume the complete URL, including userinfo, host, port, path, query, and fragment.
+# Deliberately include trailing URL punctuation rather than risk leaving a sensitive suffix.
+_URL = re.compile(r"https?://[^\s<>]+", re.IGNORECASE)
 _CARD = re.compile(r"(?<![\d])(?:\d[ \-]?){12,18}\d(?![\d])")
 _IBAN = re.compile(r"\b[A-Z]{2}\d{2}[A-Z0-9]{11,30}\b")
 _NATIONAL_ID = re.compile(r"(?<!\d)[23]\d{13}(?!\d)")
@@ -69,6 +72,10 @@ def _digits(s: str) -> str:
 
 def _find(text: str, protected_terms: Sequence[str]) -> List[Span]:
     spans: List[Span] = []
+
+    # URLs must be considered as whole spans so email/phone/credential matches inside them
+    # cannot leave URL components in the provider-bound text.
+    spans += [Span(m.start(), m.end(), "URL") for m in _URL.finditer(text)]
 
     for pattern in _SECRET_LITERALS:
         spans += [Span(m.start(), m.end(), "SECRET") for m in pattern.finditer(text)]

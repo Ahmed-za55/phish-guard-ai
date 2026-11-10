@@ -14,6 +14,18 @@ def test_email_phone_and_card():
     assert found["4111 1111 1111 1111"] == "CARD"
 
 
+def test_complete_url_is_one_span_including_sensitive_components_and_overlaps():
+    url = "https://user:credential@secure.example:8443/reset/path?email=alice%40example.invalid&phone=%2B12025550123#fragment-secret"
+    found = kinds(f"visit {url} now")
+    assert found == [(url, "URL")]
+
+
+def test_multiple_urls_are_detected_as_separate_complete_spans():
+    first = "https://first.example/path?q=one#frag"
+    second = "http://user:pass@second.example:8080/reset?token=two"
+    assert kinds(f"{first} and {second}") == [(first, "URL"), (second, "URL")]
+
+
 def test_card_requires_a_valid_luhn_checksum():
     assert ("4111 1111 1111 1112", "CARD") not in kinds("number 4111 1111 1111 1112")
 
@@ -55,8 +67,8 @@ def test_tokenize_replaces_every_occurrence_and_reuses_tokens():
     text = "a@b.co wrote to a@b.co; see http://x.test/?u=a@b.co"
     sanitized, mapping, records = tokenize(text, detect(text))
     assert "a@b.co" not in sanitized
-    assert list(mapping.values()) == ["a@b.co"]
-    assert len({r["token"] for r in records}) == 1
+    assert list(mapping.values()) == ["a@b.co", "http://x.test/?u=a@b.co"]
+    assert len({r["token"] for r in records}) == 2
 
 
 def test_tokens_are_unpredictable_per_request():

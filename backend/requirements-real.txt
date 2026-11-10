@@ -12,3 +12,4 @@ cryptography>=42
 httpx>=0.27
 pytest>=8
 # Optional at test time (imported lazily): google-genai, needed only for the live Gemini provider
+google-genai>=1.0.0

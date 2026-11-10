@@ -28,7 +28,7 @@ export default function ProofPanel({ result }: { result: PrivateResult }) {
     ["Sensitive values checked", `${o.forbidden_strings_checked} strings looked for in the outgoing text: leak check ${o.leak_check}.`],
     ["Vault", `${result.vault.cipher}, ${result.vault.nonce_bits}-bit nonce, tied to ${result.vault.bound_to}. Key id ${result.vault.kid}.`],
     ["Key custody", `${result.custody.scheme}, ${result.custody.threshold} of ${result.custody.total}.`],
-    ["The key", "Generated for this request, split, and not stored. It is never sent to the provider."],
+    ["The key", "Generated per request, split into shares, and never persisted to disk or sent to the provider."],
     ["Provider answer", `Checked against a strict schema.${result.analysis && result.analysis.violations.length ? ` ${result.analysis.violations.length} issue(s) removed.` : " No issues found."}`],
   ];
 

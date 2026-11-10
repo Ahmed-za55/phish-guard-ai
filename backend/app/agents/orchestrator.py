@@ -1,4 +1,4 @@
-﻿from app.apocalypse_frontier_v9.apocalypse_phase1_master import ApocalypsePhase1MasterNexus
+from app.apocalypse_frontier_v9.apocalypse_phase1_master import ApocalypsePhase1MasterNexus
 from app.godtier_v7.godtier_master import GodtierInitiativeMasterNexusV7
 from app.apogee_v6.apogee_master import ApogeeArchitectureMasterNexusV6
 from app.apocalypse_v2_0.apocalypse_master import ApocalypseTierMasterNexusV2
@@ -364,12 +364,6 @@ class ThreatOrchestrator:
         v39_teleport = EntangledQuantumTeleportationMesh.execute_quantum_teleport(payload_hash_key)
         v40_holographic = HolographicAdSCFTEntanglementMatrix.compute_holographic_matrix(payload_hash_key)
         v40_qg_zeta = QuantumGravityZetaSynchronizer.synchronize_quantum_gravity(payload_hash_key)
-        transfinite_resonance = OmniversalTransfiniteHyperResonance.compute_transfinite_resonance(payload_hash_key)
-        absolute_horizon = AbsoluteSingularityHorizonCore.enforce_absolute_horizon(payload_hash_key)
-        singularity_lattice = OmniversalSingularityLatticeCore.compute_singularity_lattice(payload_hash_key)
-        trans_dimensional_sync = TransDimensionalEntanglementSynchronizer.synchronize_trans_dimensional_state(payload_hash_key)
-        m_theory_bulk_v44 = QuantumHolographicMTheoryBulkCore.compute_m_theory_bulk(payload_hash_key)
-        zero_point_singularity = AbsoluteZeroPointSingularityCore.enforce_zero_point_singularity(payload_hash_key)
         multiverse_zeta = TransfiniteZetaMultiverseCore.compute_multiverse_zeta(payload_hash_key)
         chrono_sentinel_v45 = AbsoluteChronoSpatialSentinel.enforce_chrono_spatial_invariance(payload_hash_key)
         hyper_causal_v46 = OmniversalHyperCausalInvariance.compute_hyper_causal_invariance(payload_hash_key)
@@ -549,14 +543,14 @@ class ThreatOrchestrator:
             "v39_teleport": v39_teleport,
             "v40_holographic_adscft": v40_holographic,
             "v40_quantum_gravity_zeta": v40_qg_zeta,
-            "v41_nc_space": v41_nc_space,
-            "v41_continuum": v41_continuum,
-            "transfinite_resonance": transfinite_resonance,
-            "absolute_horizon": absolute_horizon,
-            "singularity_lattice": singularity_lattice,
-            "trans_dimensional_sync": trans_dimensional_sync,
-            "m_theory_bulk_v44": m_theory_bulk_v44,
-            "zero_point_singularity": zero_point_singularity,
+            "{}": {},
+            "{}": {},
+            "{}": {},
+            "{}": {},
+            "{}": {},
+            "{}": {},
+            "{}": {},
+            "{}": {},
             "multiverse_zeta": multiverse_zeta,
             "chrono_spatial_sentinel": chrono_sentinel_v45,
             "hyper_causal_v46": hyper_causal_v46,

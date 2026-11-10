@@ -16,7 +16,7 @@ SENTINEL_TEXT = (
     "password: Tr0ub4dor&3xx, code 482913."
 )
 SENTINELS = ["Mariam Hassan", "mariam.hassan@example.org", "+20 100 123 4567",
-             "4111 1111 1111 1111", "Tr0ub4dor&3xx", "482913"]
+             "4111 1111 1111 1111", "Tr0ub4dor&3xx", "482913", "http://secure-login-48213.xyz/verify"]
 
 
 def _check(name: str, fn: Callable[[], str]) -> Dict[str, Any]:

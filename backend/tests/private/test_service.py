@@ -8,6 +8,7 @@ TEXT = ("Hi Mariam Hassan, your account is locked. Verify within 24 hours at htt
         "password: Tr0ub4dor&3xx, code 482913.")
 SENTINELS = ["Mariam Hassan", "mariam.hassan@example.org", "+20 100 123 4567",
              "4111 1111 1111 1111", "Tr0ub4dor&3xx", "482913"]
+URL = "https://user:route-secret@secure-login-48213.xyz:8443/verify/path?email=mariam.hassan%40example.org&phone=%2B201001234567#fragment-sentinel"
 
 
 def run(spy, **kw):
@@ -20,7 +21,8 @@ def test_provider_never_sees_sensitive_values_or_key_material(spy):
     assert all(s not in sent for s in SENTINELS)
     for item in result["custody"]["shares"]:
         assert item["share"] not in sent
-    assert result["outbound"]["leak_check"] == "passed"
+    assert result["outbound"]["leak_check"] == "passed_literal_checks"
+    assert "arbitrary unknown text is not covered" in result["outbound"]["leak_check_scope"]
 
 
 def test_provider_payload_has_only_the_allowlisted_fields(spy):
@@ -33,9 +35,39 @@ def test_only_one_provider_call_per_request(spy):
     assert len(spy.received) == 1
 
 
-def test_non_sensitive_content_is_still_sent(spy):
-    run(spy)
-    assert "secure-login-48213.xyz" in spy.received[0].sanitized_text  # the URL is what makes it phishing
+def test_full_url_and_all_components_never_reach_provider(spy):
+    text = f"Check this link {URL}"
+    result = service.analyze(text, spy)
+    payload = spy.received[0]
+    sent = payload.as_text()
+    components = [URL, "https", "secure-login-48213.xyz", "route-secret", "/verify/path",
+                  "email=mariam.hassan%40example.org", "mariam.hassan%40example.org",
+                  "phone=%2B201001234567", "%2B201001234567", "fragment-sentinel"]
+    assert all(value not in sent for value in components)
+    assert "[[URL_" in payload.sanitized_text
+
+
+def test_url_token_restores_only_after_local_share_authorization(spy):
+    result = service.analyze(URL, spy)
+    assert URL not in spy.received[0].as_text()
+    assert URL not in " ".join(result["analysis"]["reasons"])
+    shares = [item["share"] for item in result["custody"]["shares"]]
+    restored = service.restore(result["request_id"], shares[:2])
+    assert any(URL in reason for reason in restored["reasons"])
+
+
+def test_payload_excludes_standalone_protected_value_classes(spy):
+    text = "mail alice.sentinel@example.invalid call +1 202-555-0198 password: CredentialSentinel91"
+    service.analyze(text, spy)
+    sent = spy.received[0].as_text()
+    assert all(value not in sent for value in ["alice.sentinel@example.invalid", "+1 202-555-0198",
+                                               "CredentialSentinel91"])
+
+
+def test_unknown_identifier_is_outside_detector_guarantee(spy):
+    unknown = "CaseRef-QZ-9482017"
+    service.analyze(f"Review case {unknown}", spy)
+    assert unknown in spy.received[0].as_text()
 
 
 def test_two_shares_restore_and_one_does_not(spy):
@@ -64,8 +96,6 @@ def test_vault_is_destroyed_after_repeated_failures(spy):
     for _ in range(service.MAX_RESTORE_FAILURES):
         with pytest.raises(service.RestoreDenied):
             service.restore(rid, ["PG1.bad"])
-    with pytest.raises(service.RestoreDenied):
-        service.restore(rid, [s["share"] for s in result["custody"]["shares"]][:2])
     with pytest.raises(service.SessionNotFound):
         service.restore(rid, [s["share"] for s in result["custody"]["shares"]][:2])
 
@@ -106,6 +136,14 @@ def test_fail_closed_when_a_value_would_leak(spy, monkeypatch):
     assert spy.received == []
 
 
+def test_fail_closed_when_url_tokenization_fails(spy, monkeypatch):
+    real = service.tokenize
+    monkeypatch.setattr(service, "tokenize", lambda t, s: (t, *real(t, s)[1:]))
+    with pytest.raises(service.GatewayBlocked):
+        service.analyze(URL, spy)
+    assert spy.received == []
+
+
 def test_input_limits(spy):
     with pytest.raises(ValueError):
         service.analyze("   ", spy)
@@ -116,3 +154,18 @@ def test_input_limits(spy):
 def test_local_detector_sees_the_original_text_only_locally(spy):
     result = run(spy)
     assert result["local"]["urls"] and result["local"]["urls"][0]["host"] == "secure-login-48213.xyz"
+
+
+def test_local_analysis_receives_original_url_and_findings_remain_useful(spy, monkeypatch):
+    observed = {}
+    def local_findings(text):
+        observed["text"] = text
+        return {"status": "ok", "risk_score": 73, "urls": [{"url": URL,
+                "host": "secure-login-48213.xyz", "scored_domain": "48213.xyz",
+                "verdict": "PHISHING", "risk_score": 73}]}
+    monkeypatch.setattr(service, "_local_findings", local_findings)
+    result = service.analyze(f"Check {URL}", spy)
+    assert observed["text"] == f"Check {URL}"
+    assert result["local"]["urls"][0]["url"] == URL
+    assert result["local"]["risk_score"] == 73
+    assert URL not in spy.received[0].as_text()

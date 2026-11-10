@@ -139,6 +139,7 @@ def analyze(text: str, provider: Provider, protected_terms: Sequence[str] = ()) 
     payload = ProviderPayload(system=SYSTEM_PROMPT, sanitized_text=sanitized)
     forbidden = [*mapping.values(), *encoded_shares, key_hex, *(f"{s.y:x}" for s in shares)]
     checked = assert_clean(payload, forbidden)  # raises GatewayBlocked -> the provider is never called
+    del key_hex, forbidden
 
     local = _local_findings(text)
 
@@ -183,7 +184,8 @@ def analyze(text: str, provider: Provider, protected_terms: Sequence[str] = ()) 
             "bytes": len(payload.as_text().encode("utf-8")),
             "sha256": hashlib.sha256(payload.as_text().encode("utf-8")).hexdigest(),
             "forbidden_strings_checked": checked,
-            "leak_check": "passed",
+            "leak_check": "passed_literal_checks",
+            "leak_check_scope": "literal detected originals and key/share material only; arbitrary unknown text is not covered",
         },
         "vault": {"cipher": "AES-256-GCM", "nonce_bits": 96, "kid": kid,
                   "ciphertext_bytes": len(ciphertext), "bound_to": "request id + key id"},
@@ -218,6 +220,9 @@ def restore(request_id: str, share_texts: Sequence[str]) -> Dict[str, Any]:
             s = _sessions.get(request_id)
             if s is not None:
                 s.failures += 1
+                if s.failures >= MAX_RESTORE_FAILURES:
+                    del _sessions[request_id]
+                    return RestoreDenied("Too many failed attempts. This vault has been destroyed.")
         return RestoreDenied(message)
 
     try:
