@@ -18,6 +18,13 @@
       }
     },
     {
+      "source": "/api/v1/(.*)",
+      "destination": {
+        "type": "service",
+        "service": "backend"
+      }
+    },
+    {
       "source": "/(.*)",
       "destination": {
         "type": "service",

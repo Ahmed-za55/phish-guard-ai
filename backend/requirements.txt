@@ -4,3 +4,4 @@ pydantic
 python-multipart
 python-dotenv
 google-genai
+cryptography>=41.0.0
