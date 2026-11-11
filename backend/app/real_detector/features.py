@@ -15,10 +15,7 @@ from collections import Counter
 from typing import Dict, List, Tuple
 from urllib.parse import urlsplit
 
-try:
-    import pandas as pd
-except ImportError:
-    pd = None  # type: ignore
+import pandas as pd
 
 # second-level labels that, together with a 2-letter TLD, form a "public suffix" (co.uk, com.eg ...)
 _SECOND_LEVEL = {"co", "com", "org", "net", "gov", "edu", "ac", "or", "ne", "go", "gob"}

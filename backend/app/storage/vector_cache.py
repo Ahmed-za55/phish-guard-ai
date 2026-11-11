@@ -6,10 +6,7 @@ from typing import Dict, Any, Optional
 from urllib.parse import urlsplit
 
 CACHE_FILE = Path(__file__).resolve().parent.parent / "storage" / "threat_cache.json"
-try:
-    CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
-except OSError:
-    pass
+CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
 
 class ThreatMemoryCache:
     """
@@ -188,9 +185,6 @@ class ThreatMemoryCache:
                     analysis_result, cls._sensitive_values(content)
                 ),
             }
-            try:
-                CACHE_FILE.write_text(json.dumps(data, indent=2), encoding="utf-8")
-            except OSError:
-                pass
+            CACHE_FILE.write_text(json.dumps(data, indent=2), encoding="utf-8")
         except Exception:
             pass
