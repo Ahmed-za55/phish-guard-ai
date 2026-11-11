@@ -5,7 +5,10 @@ from pathlib import Path
 from typing import Dict, Any
 
 LEDGER_FILE = Path(__file__).resolve().parent.parent / "storage" / "immutable_audit_ledger.json"
-LEDGER_FILE.parent.mkdir(parents=True, exist_ok=True)
+try:
+    LEDGER_FILE.parent.mkdir(parents=True, exist_ok=True)
+except OSError:
+    pass
 
 class NeuralSingularityFuzzer:
     """
@@ -52,7 +55,10 @@ class ImmutableAuditLedger:
         block_data["current_block_hash"] = current_hash
 
         ledger.append(block_data)
-        LEDGER_FILE.write_text(json.dumps(ledger, indent=2), encoding="utf-8")
+        try:
+            LEDGER_FILE.write_text(json.dumps(ledger, indent=2), encoding="utf-8")
+        except OSError:
+            pass
         return {
             "block_index": block_data["index"],
             "block_hash": current_hash,

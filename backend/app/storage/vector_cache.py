@@ -6,7 +6,10 @@ from typing import Dict, Any, Optional
 from urllib.parse import urlsplit
 
 CACHE_FILE = Path(__file__).resolve().parent.parent / "storage" / "threat_cache.json"
-CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+try:
+    CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+except OSError:
+    pass
 
 class ThreatMemoryCache:
     """

@@ -4,7 +4,10 @@ from pathlib import Path
 from typing import Dict, Any
 
 METRICS_FILE = Path(__file__).resolve().parent.parent / "storage" / "evolution_metrics.json"
-METRICS_FILE.parent.mkdir(parents=True, exist_ok=True)
+try:
+    METRICS_FILE.parent.mkdir(parents=True, exist_ok=True)
+except OSError:
+    pass
 
 class SelfEvolvingNeuralResonance:
     """
@@ -27,5 +30,8 @@ class SelfEvolvingNeuralResonance:
             metrics["adaptive_mutation_rate"] = round(min(metrics["adaptive_mutation_rate"] * 1.001, 0.05), 5)
         
         metrics["last_resonance_timestamp"] = time.time()
-        METRICS_FILE.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+        try:
+            METRICS_FILE.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+        except OSError:
+            pass
         return metrics
