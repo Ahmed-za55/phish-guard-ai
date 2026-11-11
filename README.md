@@ -1,5 +1,7 @@
 # PhishGuard AI
 
+**Live Deployment:** [https://phish-guard-app-beta.vercel.app](https://phish-guard-app-beta.vercel.app) | **Privacy Architecture:** [docs/PRIVATE_ANALYSIS.md](docs/PRIVATE_ANALYSIS.md)
+
 A phishing-domain detector: a **trained machine-learning model** behind a FastAPI service, with a small web UI.
 Every number below is produced by code in this repo (`backend/scripts/train.py`) on a public dataset - nothing is hardcoded.
 
@@ -9,7 +11,8 @@ Every number below is produced by code in this repo (`backend/scripts/train.py`)
 |---|---|
 | URL/domain classifier (`backend/app/real_detector/`) | Trained model, measured on held-out domains |
 | REST API `POST /api/v1/detect` + web UI `/api/v1/detect/ui` | Working |
-| Tests (`backend/tests/real/`) + GitHub Actions CI | Working |
+| Privacy gateway (`backend/app/privacy_gateway/`) | Tokenization + AES-256-GCM vault + Shamir 2-of-3 key custody (`POST /api/v1/private/analyze`) |
+| Tests (`backend/tests/private/` + `backend/tests/real/`) + CI | 125 automated tests passing (75 privacy/crypto + 50 detector/API) |
 | Other folders under `backend/app/` (`apex_math_core`, `nextgen_core`, ...) | **Research prototypes / simulations.** Their outputs are illustrative and are *not* measured; the detector does not depend on them. |
 
 ## Quick start

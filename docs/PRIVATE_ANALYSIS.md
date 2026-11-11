@@ -37,7 +37,7 @@ For a general threshold $k$ the polynomial has degree $k-1$ and $K = \sum_i y_i 
 ### Authenticated encryption of the vault
 The vault is $(C, T) = \mathrm{AES\text{-}256\text{-}GCM}_K(N,\ \mathrm{AAD},\ M)$, where $M$ is the JSON map from token to original value, $N$ a random 96-bit nonce, and
 $$\mathrm{AAD} = \texttt{pg-vault | v1 | request\_id | key\_id}.$$
-The key is fresh for every request, so a random nonce is never reused under the same key. Binding the request id and key id into the associated data means a vault cannot be moved to another request, and a flipped ciphertext bit is rejected by the tag. The cipher runs in the `cryptography` library, whose AES-GCM is OpenSSL's native implementation, so the arithmetic is low-level code, not Python.
+The key is fresh for every request, so a random nonce is never reused under the same key. Binding the request id and key id into the associated data means a vault cannot be moved to another request, and a flipped ciphertext bit is rejected by the tag. The cipher uses the `cryptography` library (OpenSSL's native AES-GCM implementation) when available, with a byte-identical NIST SP 800-38D pure-Python fallback for constrained serverless containers.
 
 ### Tokens carry no information
 Tokens are a type label, a counter and a 4-character random suffix drawn per request. They do not depend on the value, so they cannot be reversed or compared across requests.

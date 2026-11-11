@@ -3,6 +3,10 @@
 ## Inspiration
 Phishing campaigns get around blocklists within minutes by using algorithmically generated domains (DGA), look-alike domains such as `paypa1-secure.xyz`, and social-engineering text. Relying only on an LLM adds latency and availability risk, and purely rule-based systems miss new domains. We built **PhishGuard AI** to combine three layers that cover each other's weaknesses: transparent mathematical rules, a **trained machine-learning domain classifier**, and a **privacy-preserving Gemini AI gateway** with AES-256-GCM vaulting and Shamir 2-of-3 secret sharing.
 
+## Live Demo
+- **Deployment:** https://phish-guard-app-beta.vercel.app
+- **Repository:** https://github.com/Ahmed-za55/phish-guard-ai
+
 ## What it does
 PhishGuard AI analyzes **text messages**, **screenshots**, and **raw `.eml` emails** without executing attachments or visiting links, and returns a 0-100 risk score in which every point is itemized.
 
@@ -45,6 +49,12 @@ With disjoint sets of AI-classified threats $\mathcal{T}$ and deterministic flag
 $$R_{\text{raw}} = 12 C_{\text{AI}} + 22 \mathbb{I}_{\text{phish}} + \sum_{k \in \mathcal{T}} w_k + \sum_{m \in \mathcal{D} \setminus \mathcal{T}} d_m + \min(0.25 U_{\max}, 20) + \Delta_{\text{math}}$$
 $$R_{\text{final}} = \min(100, \max(0, \text{round}(R_{\text{raw}})))$$
 The weights are set by hand and explained in the output; they are not fitted probabilities. The trained domain model feeds the URL term $U_{\max}$: a `PHISHING` verdict raises the URL score to at least the model score, a `SUSPICIOUS` verdict adds 10 points, and the model never lowers a score.
+
+### 4. Privacy-preserving vault & Shamir $(2, 3)$ key custody over $\mathbb{F}_{2^{521}-1}$
+Sensitive entities (names, emails, phones, cards, credentials, URLs) are replaced with random opaque tokens before any external LLM call. The token mapping is sealed with **AES-256-GCM** using a 256-bit ephemeral key $K$ and request-bound AAD (`pg-vault|v1|{request_id}|{kid}`). The key $K$ is split into 3 shares over the Mersenne prime field $p = 2^{521} - 1$ via a random degree-1 polynomial:
+$$f(x) = (K + a_1 x) \bmod p, \quad S_i = (x_i, f(x_i)) \text{ for } x_i \in \{1, 2, 3\}$$
+Any 2 shares reconstruct $K$ at $x = 0$ via Lagrange interpolation, while a single share leaves every 256-bit key equally probable:
+$$K = \left( y_0 \frac{-x_1}{x_0 - x_1} + y_1 \frac{-x_0}{x_1 - x_0} \right) \bmod p$$
 
 ## How we built it
 - **Backend:** Python, FastAPI, Pydantic, a deterministic `.eml` MIME parser, scikit-learn for the domain model.

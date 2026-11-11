@@ -39,7 +39,7 @@ Click **Holder C**, click **Unlock with 2 holders**.
 **2:45 - Limits and close (15 s).**
 > "To be clear: this is tokenization with encrypted key custody, not encrypted inference. Gemini still reads the words we did not recognize as sensitive. The math is Shamir over a 521-bit prime field and AES-GCM, with 75 automated privacy tests (125 total)."
 
-Optional last shot: the terminal showing `python -m pytest tests/private -q` finishing with `68 passed`.
+Optional last shot: the terminal showing `python -m pytest tests/private -q` finishing with `75 passed` (or `python -m pytest -q` finishing with `125 passed`).
 
 ## Tips
 - Say "tokens" and "shares", not "encrypted prompt". It keeps the claim accurate.
