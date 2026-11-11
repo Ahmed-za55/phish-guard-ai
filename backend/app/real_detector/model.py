@@ -74,24 +74,34 @@ def model_info() -> Dict[str, Any]:
 
 def _light_score_host(host: str) -> float:
     f = host_features(host)
-    score = 0.04
-    if f.get("is_ip"):
-        score += 0.45
-    if f.get("has_punycode"):
-        score += 0.35
-    if f.get("brand_in_subdomain"):
-        score += 0.48
-    if f.get("brand_lookalike"):
-        score += 0.52
-    if f.get("risky_tld"):
-        score += 0.32
-    score += min(0.30, 0.12 * int(f.get("phish_keywords", 0)))
-    score += min(0.25, 0.06 * int(f.get("num_hyphens", 0)))
-    if float(f.get("digit_ratio", 0.0)) > 0.15:
-        score += 0.20
-    if float(f.get("entropy", 0.0)) > 3.7:
-        score += 0.15
-    return max(0.01, min(0.99, score))
+    inds = indicators(f)
+    score = 0.03
+    # Weight each triggered domain indicator from features.py
+    score += 0.26 * len(inds)
+    for k, w in (
+        ("is_ip", 0.45),
+        ("has_punycode", 0.40),
+        ("brand_in_subdomain", 0.45),
+        ("brand_in_domain", 0.38),
+        ("brand_lookalike", 0.48),
+        ("risky_tld", 0.30),
+        ("suspicious_tld", 0.30),
+    ):
+        if f.get(k):
+            score += w
+    h_lower = host.lower()
+    brands = ("paypal", "apple", "google", "microsoft", "amazon", "netflix", "bank", "chase", "wellsfargo", "binance", "coinbase", "metamask")
+    kw_hits = sum(1 for kw in ("secure", "login", "verify", "update", "account", "confirm", "signin", "wallet", "auth", "support", "alert") if kw in h_lower)
+    brand_hits = sum(1 for b in brands if b in h_lower and not h_lower.endswith(f"{b}.com"))
+    score += min(0.45, 0.22 * kw_hits)
+    score += min(0.45, 0.35 * brand_hits)
+    hyphen_count = h_lower.count("-")
+    if hyphen_count >= 2:
+        score += min(0.30, 0.10 * hyphen_count)
+    digits = sum(c.isdigit() for c in h_lower)
+    if digits >= 3:
+        score += 0.22
+    return max(0.02, min(0.98, score))
 
 
 def predict_hosts(hosts: List[str]) -> List[float]:
@@ -120,7 +130,7 @@ def analyze_url(url: str) -> Dict[str, Any]:
             "verdict": "NOT_SCORED", "threshold": None, "threshold_review": None,
             "indicators": indicators(host_features(host)), "model": model_info(),
         }
-    p = predict_hosts([scored])[0]
+    p = _light_score_host(host) if get_bundle().get('_serverless_light') else predict_hosts([scored])[0]
     bundle = get_bundle()
     thr = float(bundle.get("threshold", 0.5))
     review = bundle.get("threshold_review")
