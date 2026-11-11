@@ -1,3 +1,4 @@
+from __future__ import annotations
 import hashlib
 from typing import Dict, Any, List
 from app.titan_omega_v76.titan_plane_1_trust import TitanSovereignTrustPlane

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.absolute_frontier_v8.frontier_genesis import ProjectGenesisDiscovery
 from app.absolute_frontier_v8.frontier_prometheus import ProjectPrometheusResearchLab

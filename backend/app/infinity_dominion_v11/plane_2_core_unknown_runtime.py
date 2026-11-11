@@ -1,3 +1,4 @@
+from __future__ import annotations
 import math
 import hashlib
 from typing import Dict, Any, List

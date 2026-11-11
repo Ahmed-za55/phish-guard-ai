@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.beyond_frontier_v73.sovereign_trust_plane import SovereignTrustPlane
 from app.beyond_frontier_v73.secure_evidence_ingestion import SecureEvidenceIngestionPlane

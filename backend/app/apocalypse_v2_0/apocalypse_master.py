@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.apocalypse_v2_0.enterprise_fabric import EnterpriseIntegrationFabric
 from app.apocalypse_v2_0.incident_response_forensics import IncidentForensicsAndResponse

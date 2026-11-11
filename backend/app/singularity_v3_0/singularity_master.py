@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.singularity_v3_0.mission_control import SovereignMissionControl
 from app.singularity_v3_0.infrastructure_propagation import CriticalInfrastructureAndPropagation

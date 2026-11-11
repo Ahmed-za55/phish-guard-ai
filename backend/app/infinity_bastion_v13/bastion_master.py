@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.infinity_bastion_v13.bastion_1_identity_recovery import IdentityCompromiseRecoveryEngine
 from app.infinity_bastion_v13.bastion_2_financial_trust import FinancialIntentSecurityEngine

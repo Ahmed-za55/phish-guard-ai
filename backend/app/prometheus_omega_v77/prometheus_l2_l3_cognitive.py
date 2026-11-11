@@ -1,3 +1,4 @@
+from __future__ import annotations
 import hashlib
 from urllib.parse import urlparse
 from typing import Dict, Any, List

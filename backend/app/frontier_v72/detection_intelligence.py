@@ -1,3 +1,4 @@
+from __future__ import annotations
 import re
 import math
 from typing import Dict, Any, List

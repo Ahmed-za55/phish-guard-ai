@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.apocalypse_frontier_v9.apocalypse_1_project_aegis import ProjectAegisSecurityKernel
 from app.apocalypse_frontier_v9.apocalypse_2_project_origin import ProjectOriginEvidenceProvenance

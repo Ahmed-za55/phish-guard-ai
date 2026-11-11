@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.transcendence_v10.transcendence_1_pantheon import ProjectPantheonWorldModel
 from app.transcendence_v10.transcendence_2_oracle_prime import ProjectOraclePrimeDiscovery

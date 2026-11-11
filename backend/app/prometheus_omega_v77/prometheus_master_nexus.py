@@ -1,3 +1,4 @@
+from __future__ import annotations
 import hashlib
 from typing import Dict, Any, List
 from app.prometheus_omega_v77.prometheus_l0_l1_kernel import PrometheusKernelAndTrust

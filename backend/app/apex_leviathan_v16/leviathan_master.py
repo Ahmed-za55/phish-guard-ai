@@ -1,3 +1,4 @@
+from __future__ import annotations
 from pathlib import Path
 from typing import Dict, Any, List
 from app.apex_leviathan_v16.leviathan_1_nash_game_solver import GameTheoreticNashSolver

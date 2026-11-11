@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.transcendence_v82.transcendence_1_trust_fabric import TranscendenceTrustFabric
 from app.transcendence_v82.transcendence_2_intelligence_fabric import TranscendenceIntelligenceFabric

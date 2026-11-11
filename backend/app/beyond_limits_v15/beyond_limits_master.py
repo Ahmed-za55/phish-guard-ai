@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.beyond_limits_v15.pillar_1_crime_scene_reconstruction import DigitalCrimeSceneReconstructor
 from app.beyond_limits_v15.pillar_2_research_scientist import AutonomousSecurityResearchScientist

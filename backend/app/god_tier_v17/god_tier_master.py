@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.god_tier_v17.multiverse_engine import CyberMultiverseEngine
 from app.god_tier_v17.autonomous_science_lab import AutonomousCyberScienceLab

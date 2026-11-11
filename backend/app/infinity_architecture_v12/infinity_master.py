@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.infinity_architecture_v12.infinity_1_cyber_genome import CyberGenomeRepresentationEngine
 from app.infinity_architecture_v12.infinity_2_hyperbrain_akashic import HyperBrainAndAkashicEngine

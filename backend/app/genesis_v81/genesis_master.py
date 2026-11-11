@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.genesis_v81.genesis_1_constitution_contracts import SecurityConstitution2AndContracts
 from app.genesis_v81.genesis_2_auditor_feasibility import AutonomousArchitectureAuditorAndFeasibility

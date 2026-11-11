@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.frontier_expansion_v5.frontier_1_abuse_and_api import ProductAbuseAndSecureApi
 from app.frontier_expansion_v5.frontier_2_data_sovereignty import DataSovereigntyAssurance

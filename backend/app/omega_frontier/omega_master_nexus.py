@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.omega_frontier.omega_frontier_1_trust import OmegaSovereignTrust
 from app.omega_frontier.omega_frontier_2_intelligence import OmegaSovereignIntelligence

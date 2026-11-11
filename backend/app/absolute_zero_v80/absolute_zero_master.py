@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.absolute_zero_v80.root_of_trust import SovereignRootOfTrust
 from app.absolute_zero_v80.semantic_firewall import AbsoluteZeroIntelligence

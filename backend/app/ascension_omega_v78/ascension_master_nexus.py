@@ -1,3 +1,4 @@
+from __future__ import annotations
 import hashlib
 from typing import Dict, Any, List
 from app.ascension_omega_v78.ascension_l01_l02_kernel import AscensionSecurityKernelAndTrust

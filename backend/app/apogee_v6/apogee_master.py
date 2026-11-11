@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.apogee_v6.apogee_1_adversary_cross_platform import AdversaryAndCrossPlatformIntelligence
 from app.apogee_v6.apogee_2_interception_contradiction import PreExecutionAndContradictionEngine

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.godtier_v7.godtier_1_project_aegis import ProjectAegisDefensiveOS
 from app.godtier_v7.godtier_2_project_oracle import ProjectOracleIntelligence

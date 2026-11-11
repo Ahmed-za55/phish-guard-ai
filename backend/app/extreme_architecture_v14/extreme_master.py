@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.extreme_architecture_v14.extreme_1_reality_reconstruction import CyberRealityReconstructionEngine
 from app.extreme_architecture_v14.extreme_2_architecture_auditor import AutonomousArchitectureAuditor

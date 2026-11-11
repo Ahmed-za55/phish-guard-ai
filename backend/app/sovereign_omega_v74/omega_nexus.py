@@ -1,3 +1,4 @@
+from __future__ import annotations
 import hashlib
 from typing import Dict, Any, List
 from app.sovereign_omega_v74.p0_p5_resilience_and_constrained_defense import ProvablyConstrainedResilienceEngine

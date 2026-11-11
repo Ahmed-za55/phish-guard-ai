@@ -1,3 +1,4 @@
+from __future__ import annotations
 from fastapi import APIRouter
 from app.schemas import AnalyzeRequest, AnalyzeResponse
 from app.services.ai_service import analyze_text

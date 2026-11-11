@@ -1,3 +1,4 @@
+from __future__ import annotations
 from app.apocalypse_frontier_v9.apocalypse_phase1_master import ApocalypsePhase1MasterNexus
 from app.godtier_v7.godtier_master import GodtierInitiativeMasterNexusV7
 from app.apogee_v6.apogee_master import ApogeeArchitectureMasterNexusV6

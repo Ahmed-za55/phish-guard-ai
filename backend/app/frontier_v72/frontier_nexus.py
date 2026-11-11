@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.frontier_v72.trust_verification_plane import TrustAndVerificationPlane
 from app.frontier_v72.detection_intelligence import FrontierDetectionIntelligence

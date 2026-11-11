@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.omega_ascendant_v4.ascendant_1_decision_integrity import DecisionIntegrityAndAccountability
 from app.omega_ascendant_v4.ascendant_2_identity_reality_gap import MachineIdentityAndRealityGap

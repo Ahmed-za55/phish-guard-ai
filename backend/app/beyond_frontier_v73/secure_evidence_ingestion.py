@@ -1,3 +1,4 @@
+from __future__ import annotations
 import hashlib
 import time
 from urllib.parse import urlparse

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from email import policy
 from email.message import Message
 from email.parser import BytesParser

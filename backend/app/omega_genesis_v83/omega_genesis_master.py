@@ -1,3 +1,4 @@
+from __future__ import annotations
 import hashlib
 from typing import Dict, Any, List
 from app.omega_genesis_v83.omega_genesis_1_meta_control import SovereignMetaControlAndHardwareTrust

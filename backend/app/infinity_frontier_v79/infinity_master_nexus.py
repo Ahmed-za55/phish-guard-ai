@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict, Any, List
 from app.infinity_frontier_v79.security_constitution import SovereignSecurityConstitution
 from app.infinity_frontier_v79.data_provenance_pqc import DataProvenanceAndPostQuantumEngine
