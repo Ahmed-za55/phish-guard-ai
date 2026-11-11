@@ -138,7 +138,10 @@ def metrics_at(y_true: np.ndarray, p: np.ndarray, thr: float) -> Dict[str, Any]:
 # --------------------------------------------------------------------------- pipeline
 def run_training(df: pd.DataFrame, out_dir: Path, dataset_info: Dict[str, Any] | None = None,
                  test_size: float = 0.2, seed: int = SEED) -> Dict[str, Any]:
-    out_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        out_dir.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass
 
     train_full, test = group_split(df, test_size, seed)
     train, val = group_split(train_full, 0.2, seed)

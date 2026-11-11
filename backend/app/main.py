@@ -1,15 +1,16 @@
-from app.nextgen_core.nextgen_router import router as nextgen_quad_router
-from app.infinity_dominion_v11.dominion_router import router as dominion_v11_router
 import os
 import sys
 from pathlib import Path
 
-# إعداد مسارات بايثون لدعم بيئة سيرفرات Vercel
+# إعداد مسارات بايثون لدعم بيئة سيرفرات Vercel قبل أي استيراد من app
 BASE_DIR = Path(__file__).resolve().parent
 if str(BASE_DIR.parent) not in sys.path:
     sys.path.insert(0, str(BASE_DIR.parent))
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
+
+from app.nextgen_core.nextgen_router import router as nextgen_quad_router
+from app.infinity_dominion_v11.dominion_router import router as dominion_v11_router
 
 from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware

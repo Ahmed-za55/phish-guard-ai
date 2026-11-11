@@ -7,7 +7,10 @@ import threading
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-import joblib
+try:
+    import joblib
+except ImportError:
+    joblib = None  # type: ignore
 
 from .features import SHARED_HOSTING, extract_host, features_frame, host_features, indicators, registered_domain
 
