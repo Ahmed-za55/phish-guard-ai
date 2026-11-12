@@ -136,8 +136,8 @@ export default function Home() {
             Check it before you click.
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-ink-2 sm:text-xl">
-            Paste a link, a message or an email. You get a verdict and every reason behind it. In private mode, your
-            personal details never reach the AI.
+            Paste a link, a message or an email. You get a verdict and every reason behind it. In private mode,
+            detected sensitive details and full URLs are swapped for random tokens before anything goes to Gemini.
           </p>
         </section>
 

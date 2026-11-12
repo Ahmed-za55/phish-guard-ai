@@ -66,7 +66,7 @@ export default function PrivateMode() {
         Paste a suspicious message, with your details left in
       </label>
       <p className="mt-1 max-w-2xl text-ink-2">
-        Emails, phone numbers, card numbers, passwords and codes are swapped for random tokens before anything goes to
+        Full URLs, emails, phone numbers, card numbers, passwords and codes are swapped for random tokens before anything goes to
         Gemini. You can unlock them afterwards, here, with two of three key holders.
       </p>
       <textarea
