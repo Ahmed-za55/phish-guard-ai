@@ -1,18 +1,28 @@
 name: CI
-on: [push, pull_request]
+
+on:
+  push:
+    branches: [ "main", "private-mode" ]
+  pull_request:
+    branches: [ "main", "private-mode" ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-          cache: pip
-          cache-dependency-path: backend/requirements-real.txt
-      - run: pip install -r requirements-real.txt
-      - run: python -m pytest -v
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+          if [ -f backend/requirements-real.txt ]; then pip install -r backend/requirements-real.txt; fi
+          pip install pytest
+      - name: Run tests
+        run: |
+          cd backend
+          python -m pytest -q
